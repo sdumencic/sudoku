@@ -98,15 +98,6 @@ void grid::initGrid_file_txt(int i)
     emit cellChanged();
 }
 
-// Updateanje vrijednosti na odredenom indexu s novim inputom
-void grid::updateListCells(int index, int txt)
-{
-    updateListColors(index, true);
-    listCells[index] = txt == 0 ? QString() : QString::number(txt);
-
-    emit cellChanged();
-}
-
 // Koordinate
 QList<int> grid::get_coordinates(int index)
 {
@@ -134,6 +125,15 @@ QList<QList<int>> grid::get_list_index(QList<int> cord)
     neighbors.push_back(neighbors_x);
     neighbors.push_back(neighbors_y);
     return neighbors;
+}
+
+// Updateanje vrijednosti na odredenom indexu s novim inputom
+void grid::updateListCells(int index, int txt)
+{
+    updateListColors(index, true);
+    listCells[index] = txt == 0 ? QString() : QString::number(txt);
+
+    emit cellChanged();
 }
 
 // Updateanje boje

@@ -130,7 +130,6 @@ Window {
             rightMargin: 20
         }
     }
-    /////////////////////
 
     Rectangle{
         id : rect_game
@@ -277,7 +276,7 @@ Window {
             }
 
             opacity: 0.9
-            color: "#2ecc71"
+            color: "#009688"
             transformOrigin: Item.Center
             Text {
                 id: text_saved
