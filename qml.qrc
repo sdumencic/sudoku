@@ -14,5 +14,6 @@
         <file>images/sun.png</file>
         <file>images/pause-button.png</file>
         <file>images/play-button.png</file>
+        <file>images/lightbulb.png</file>
     </qresource>
 </RCC>

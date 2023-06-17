@@ -392,6 +392,34 @@ Window {
                 font.family: "Arial"
             }
         }
+
+        Button {
+            id: buttonHint
+            x: row_buttons.x + row_buttons.width + 30
+            y: row_buttons.y
+            z: 20
+            height: 50
+            width: 50
+            background: Rectangle {
+                color: "transparent"
+            }
+
+            onClicked: {
+                grid.help()
+            }
+
+            Image {
+                id: hint
+                height: 50
+                width: 50
+                source: "qrc:///images/lightbulb.png"
+                fillMode: Image.Stretch
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    verticalCenter: parent.verticalCenter
+                }
+            }
+        }
     }
 
     // Pozadina

@@ -27,6 +27,7 @@ Rectangle {
             timerText.visible = true            
             buttonStop.visible = true
             buttonStart.visible = true
+            buttonHint.visible = true
             timer.start();
         }
 
