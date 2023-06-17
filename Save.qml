@@ -3,9 +3,7 @@ import QtQuick 2.15
 Rectangle {
     width: 130
     height: 55
-    color: '#34495e'
-    border.color: "#95a5a6"
-    border.width: 2
+    color: '#74e1e3'
     radius : 5
 
     Timer {
@@ -30,8 +28,9 @@ Rectangle {
             grid.save()
             timer.setTimeout(function(){ saved_pannel.visible = false }, 1000);
         }
+
         onExited: {
-            save.color = "#34495e";
+            save.color = "#74e1e3";
         }
 
         onEntered: {

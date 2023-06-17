@@ -18,7 +18,7 @@ public:
     Q_INVOKABLE void upListCases(int index, int txt);
     Q_INVOKABLE void upListColors(int index, bool focus);
     Q_INVOKABLE void check(bool b);
-    Q_INVOKABLE void initGrid_with_csv(int inputFileNumber);
+    Q_INVOKABLE void initGrid_file_txt(int inputFileNumber);
     Q_INVOKABLE void save();
     void check_saved_file();
 

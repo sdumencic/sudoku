@@ -16,6 +16,7 @@ qt_add_executable(appsudoku
     grid.cpp
     player.cpp
     qml.qrc
+    theme.cpp
 )
 
 qt_add_qml_module(appsudoku
@@ -30,7 +31,12 @@ qt_add_qml_module(appsudoku
         Player.qml
 )
 
+# Dodavanje direktorija s mrezama
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/mreze/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/mreze/)
+
+# Dodavanje direktorija sa slikama - potrebno za window icon
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/images/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/images/)
+
 
 set_target_properties(appsudoku PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

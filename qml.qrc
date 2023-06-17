@@ -1,10 +1,8 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/background.png</file>
         <file>images/edit.png</file>
-        <file>images/sudoku (1).png</file>
         <file>images/sudoku.png</file>
-        <file>images/sudoku2.png</file>
+        <file>images/background.png</file>
         <file>CustomButton.qml</file>
         <file>Main.qml</file>
         <file>SudokuGrid.qml</file>
@@ -12,5 +10,7 @@
         <file>ColorColumn.qml</file>
         <file>Player.qml</file>
         <file>Save.qml</file>
+        <file>images/moon.png</file>
+        <file>images/sun.png</file>
     </qresource>
 </RCC>

@@ -16,12 +16,14 @@ Rectangle {
         width: 200
         anchors.fill: parent
         onClicked: {
-            grid.initGrid_with_csv(game)
+            grid.initGrid_file_txt(game)
             menu.visible = false
             guest.visible = false
             text1.visible = false
             background.visible = false
             rect_game.visible = true
+            themeImage.visible = true
+            customSwitch.visible = true
         }
 
         hoverEnabled: true

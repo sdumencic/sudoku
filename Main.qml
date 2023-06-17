@@ -2,7 +2,6 @@ import QtQuick 2.15
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.15
-import Qt.labs.settings 1.0
 
 Window {
     id: window
@@ -41,6 +40,7 @@ Window {
                     id: usernameInput
                     placeholderText: "Unesi svoje ime"
                     font.pixelSize: 20
+                    validator: RegularExpressionValidator  { regularExpression: /^([a-zA-Z]{1,10})$/ }
                 }
 
                 Row {
@@ -72,12 +72,73 @@ Window {
         }
     }
 
+    // Theme switch
+    Item {
+        id: customSwitch
+        width: 44
+        height: 24
+        y: 20
+        z: 10
+        visible: false
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+        }
+
+        Rectangle {
+            width: 44
+            height: 24
+            radius: height / 2
+            color: switchControl.checked ? "#FFF59D" : "lightgray"
+
+            Rectangle {
+                id: handle
+                width: 24
+                height: 24
+                radius: width / 2
+                color: switchControl.checked ? "#FF9800" : "gray"
+                border.color: switchControl.checked ? "#FF9800" : "gray"
+                border.width: 2
+                anchors.horizontalCenter: switchControl.checked ? parent.right : parent.left
+            }
+        }
+
+        MouseArea {
+            id: switchControl
+            width: parent.width
+            height: parent.height
+            property bool checked: theme.isLight;
+
+            onClicked: {
+                checked = !theme.isLight
+                theme.setIsLight(checked)
+                themeImage.source = theme.isLight ? "qrc:///images/sun.png" : "qrc:///images/moon.png"
+            }
+        }
+    }
+
+    Image {
+        id: themeImage
+        x: customSwitch.x + customSwitch.width + 20
+        y: 10
+        z: 10
+        source: "qrc:///images/sun.png"
+        height: 50
+        width: 50
+        visible: false
+        anchors {
+            right: parent.right
+            rightMargin: 20
+        }
+    }
+    /////////////////////
+
     Rectangle{
         id : rect_game
         width: window.width
         height: window.height
         x : window.width / 2 - rect_game.width / 2
         visible : false
+        color: theme.isLight ? "white" : "#3c3c3c"
 
         SudokuGrid {
             id: gridView
@@ -118,9 +179,7 @@ Window {
                 id : button1
                 width: 130
                 height: 55
-                color: '#2ecc71'
-                border.color: "#95a5a6"
-                border.width: 2
+                color: "#03A9F4"
                 radius : 5
                 MouseArea {
                     anchors.fill: parent
@@ -133,7 +192,7 @@ Window {
                     }
 
                     onExited: {
-                        button1.color = "#2ecc71";
+                        button1.color = "#03A9F4";
                     }
                 }
 
@@ -162,14 +221,12 @@ Window {
                 id : button2
                 width: 130
                 height: 55
-                color: '#3498db'
-                border.color: "#95a5a6"
-                border.width: 2
+                color: "#00BCD4"
                 radius : 5
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        grid.initGrid_with_csv(grid.level)
+                        grid.initGrid_file_txt(grid.level)
                     }
 
                     hoverEnabled: true
@@ -179,7 +236,7 @@ Window {
                     }
 
                     onExited: {
-                        button2.color = "#3498db";
+                        button2.color = "#00BCD4";
                     }
                 }
 
@@ -246,7 +303,7 @@ Window {
     Image {
         id : background
         visible: true
-        source: "qrc:///images/sudoku2.png"
+        source: "qrc:///images/background.png"
         z: -1
     }
 
