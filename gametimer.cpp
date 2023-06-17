@@ -33,3 +33,14 @@ void GameTimer::updateTimer()
                        .arg(remainingSeconds, 2, 10, QLatin1Char('0'));
     emit timeChanged(time);
 }
+
+void GameTimer::reset()
+{
+    seconds = 0;
+    emit timeChanged("00:00");
+}
+
+void GameTimer::resume()
+{
+    timer->start();
+}

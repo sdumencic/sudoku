@@ -15,6 +15,66 @@ Window {
     property string lightTeal: "#80CBC4";
     Material.accent: Material.Teal
 
+    Button {
+        id: buttonStop
+        height: 25
+        width: 25
+        x: 100
+        y: 25
+        z: 20
+        visible: false
+        background: Rectangle {
+            color: "transparent"
+        }
+
+        onClicked: {
+            timer.stop();
+        }
+
+        Image {
+            id : stop
+            height: 25
+            width: 25
+            visible: true
+            source: "qrc:///images/pause-button.png"
+            fillMode: Image.Stretch
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                verticalCenter: parent.verticalCenter
+            }
+        }
+    }
+
+    Button {
+        id: buttonStart
+        height: 25
+        width: 25
+        x: 130
+        y: 25
+        z: 20
+        visible: false
+        background: Rectangle {
+            color: "transparent"
+        }
+
+        onClicked: {
+            timer.start();
+        }
+
+        Image {
+            id : start
+            height: 25
+            width: 25
+            visible: true
+            source: "qrc:///images/play-button.png"
+            fillMode: Image.Stretch
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                verticalCenter: parent.verticalCenter
+            }
+        }
+    }
+
     GameTimer {
         id: timer
     }
@@ -249,8 +309,7 @@ Window {
                     anchors.fill: parent
                     onClicked: {
                         grid.initGrid_file_txt(grid.level)
-                        timer.stop()
-                        timer.start()
+                        timer.reset()
                     }
 
                     hoverEnabled: true

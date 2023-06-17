@@ -19,7 +19,9 @@ signals:
 public slots:
     void start();
     void stop();
+    void reset();
     void updateTimer();
+    void resume();
 
 private:
     QTimer *timer;
