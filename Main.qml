@@ -29,7 +29,7 @@ Window {
         }
 
         contentItem: Rectangle {
-            color: "#ffffff"
+            color: "white"
 
             Column {
                 spacing: 20
@@ -208,7 +208,7 @@ Window {
                     anchors.verticalCenterOffset: 0
 
                     text: "Provjeri"
-                    color: '#fff'
+                    color: 'white'
                     font.pixelSize: 20
                     font.family: "Arial"
 
@@ -252,7 +252,7 @@ Window {
                     anchors.verticalCenterOffset: 0
 
                     text: "Restart"
-                    color: '#fff'
+                    color: 'white'
                     font.pixelSize: 20
                     font.family: "Arial"
 
@@ -291,7 +291,7 @@ Window {
                 anchors.verticalCenterOffset: 0
 
                 text: "Igra je spremljena"
-                color: '#fff'
+                color: 'white'
                 font.pixelSize: 40
                 font.family: "Arial"
             }
@@ -312,7 +312,7 @@ Window {
         y: 20
         width: 200
         text: "SUDOKU"
-        color: "#fff"
+        color: "white"
         font.pixelSize: 30
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter

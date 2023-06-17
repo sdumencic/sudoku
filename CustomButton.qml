@@ -4,7 +4,7 @@ Rectangle {
     width: 200
     height: 55
     transformOrigin: Item.Center
-    border.color: "#fff"
+    border.color: "white"
     border.width: 2
     radius : 5
 
@@ -46,7 +46,7 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.horizontalCenterOffset: 1
         text: label
-        color: "#ffffff"
+        color: "white"
         font.pixelSize: 20
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter

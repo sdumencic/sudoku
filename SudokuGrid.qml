@@ -40,26 +40,34 @@ GridView {
                 border.color: "#cacaca"
                 border.width: 1
                 TextInput {
-                    id: textEdit
-                    padding: 13
-                    topPadding: 15
+                    id: textEdit                    
                     x: 5
-                    font.bold: true
-                    font.pixelSize: 20
                     width: 55
                     height: 55
+                    font.bold: true
+                    font.pixelSize: 20
+                    padding: 13
+                    topPadding: 15
+
                     // ListCells - vrijednost svih celija
                     text: grid.cells[index]
+
                     // listCellTypes - tipovi celija
                     readOnly: grid.type[index]
+
                     // Boja brojeva - crno ako su zadani, plavo ako ih je igrac upisao
-                    color: grid.type[index] ? "#000" : "#4a90e2"
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.horizontalCenterOffset: 8
-                    maximumLength: 1
+                    color: grid.type[index] ? "#000000" : "#4a90e2"
+
                     // Validacija inputa
+                    maximumLength: 1
                     validator: RegularExpressionValidator { regularExpression: /[1-9]/ }
+
+                    anchors {
+                        verticalCenter: parent.verticalCenter
+                        horizontalCenter: parent.horizontalCenter
+                        horizontalCenterOffset: 8
+                    }
+
                     // Mijenjanje boje na focus
                     onFocusChanged: {
                         grid.updateListColors(index, focus)

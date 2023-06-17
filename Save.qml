@@ -52,7 +52,7 @@ Rectangle {
         anchors.verticalCenterOffset: 0
 
         text: "Spremi"
-        color: '#fff'
+        color: 'white'
         font.pixelSize: 20
         font.family: "Arial"
     }

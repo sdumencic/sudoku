@@ -39,7 +39,7 @@ void grid::initGrid()
     listCells.fill(QString(), 81);
 
     // Lista boja
-    listColors.fill("#fff", 81);
+    listColors.fill("white", 81);
 }
 
 // Citanje txt filea
@@ -51,7 +51,7 @@ void grid::initGrid_file_txt(int i)
     listCells.clear();
     listCellTypes.clear();
     listColors.clear();
-    listColors.resize(81, "#fff");
+    listColors.resize(81, "white");
 
     // Postavljanje datoteke za citanje iz direktorija mreze
     string inputFileName = "./mreze/" + to_string(i) + ".txt";
@@ -144,7 +144,7 @@ void grid::updateListColors(int index, bool focus)
     }
 
     // Resetiranje boje
-    std::fill(listColors.begin(), listColors.end(), QString("#fff"));
+    std::fill(listColors.begin(), listColors.end(), QString("white"));
     QList<int> cord = get_coordinates(index);
 
     // Dohvacanje indexa celija u istom sub-kvadratu
