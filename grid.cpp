@@ -1,12 +1,23 @@
 #include "grid.h"
 #include <fstream>
 #include <iostream>
-#include <qDebug>
 #include <sstream>
 #include <string>
 #include <vector>
 
 using namespace std;
+
+// Boja za oznacenu celiju - tirkizna
+const QString COLOR_SELECTED = "#80CBC4";
+
+// Boja za isti redak, stupac i sub-kvadrat u kojem se nalazi oznacena celija - svijetlo tirkizna
+const QString COLOR_SELECTED_RCS = "#C7E2E7";
+
+// Boja za neispravno ispunjene celije - svijetlo crvena
+const QString COLOR_FALSE = "#EF9A9A";
+
+// Boja za oznacavanje gotove igre - svijetlo zelena
+const QString COLOR_CORRECT = "#C5E1A5";
 
 grid::grid(QObject *parent)
     : QObject(parent)
@@ -21,10 +32,12 @@ grid::grid(QObject *parent)
 // Inicijalizacija
 void grid::initGrid()
 {
-    //  Sadrzaj svake celije
-    listCases.fill(QString(), 81);
     // Tip celije - false - obicna celija, true - predefinirana celija, ne moze se mijenjati
-    listTypeCases.fill(false, 81);
+    listCellTypes.fill(false, 81);
+
+    //  Sadrzaj svake celije
+    listCells.fill(QString(), 81);
+
     // Lista boja
     listColors.fill("#fff", 81);
 }
@@ -32,12 +45,15 @@ void grid::initGrid()
 // Citanje txt filea
 void grid::initGrid_file_txt(int i)
 {
-    listCases.clear();
-    listTypeCases.clear();
-    listColors.clear();
+    m_level = i;
 
+    // Postavljanje cistog pocetnog stanja
+    listCells.clear();
+    listCellTypes.clear();
+    listColors.clear();
     listColors.resize(81, "#fff");
 
+    // Postavljanje datoteke za citanje iz direktorija mreze
     string inputFileName = "./mreze/" + to_string(i) + ".txt";
     ifstream inputFile(inputFileName);
 
@@ -52,8 +68,6 @@ void grid::initGrid_file_txt(int i)
     // Citanje svakog reda iz txt
     while (getline(inputFile, line)) {
         lineCount++;
-        if (line[0] == '#')
-            continue;
 
         istringstream ss(line);
         string cell;
@@ -65,37 +79,36 @@ void grid::initGrid_file_txt(int i)
         while (getline(ss, cell, '|')) {
             try {
                 if (cell == ".") {
-                    listCases.push_back(QString());
-                    listTypeCases.push_back(false);
-                } else if (line.substr(0, 1) == "-") {
-                    listCases.push_back(QString::fromStdString(line.substr(1, 2)));
-                    listTypeCases.push_back(false);
+                    listCells.push_back(QString());
+                    listCellTypes.push_back(false);
+                } else if (cell.substr(0, 1) == "-") {
+                    listCells.push_back(QString::fromStdString(cell.substr(1, 2)));
+                    listCellTypes.push_back(false);
                 } else {
-                    listCases.push_back(QString::fromStdString(cell));
-                    listTypeCases.push_back(true);
+                    listCells.push_back(QString::fromStdString(cell));
+                    listCellTypes.push_back(true);
                 }
             } catch (const std::invalid_argument &e) {
                 cout << "NaN found in file " << inputFileName << " line " << lineCount << endl;
-                e.what();
             }
         }
     }
 
     inputFile.close();
-    emit caseChanged();
+    emit cellChanged();
 }
 
-// Updatenjae vrijednosti na odredenom indexu s novim inputom
-void grid::upListCases(int index, int txt)
+// Updateanje vrijednosti na odredenom indexu s novim inputom
+void grid::updateListCells(int index, int txt)
 {
-    upListColors(index, true);
-    listCases[index] = txt == 0 ? QString() : QString::number(txt);
+    updateListColors(index, true);
+    listCells[index] = txt == 0 ? QString() : QString::number(txt);
 
-    emit caseChanged();
+    emit cellChanged();
 }
 
 // Koordinate
-QList<int> grid::get_cord(int index)
+QList<int> grid::get_coordinates(int index)
 {
     return {index % 9, index / 9};
 }
@@ -124,7 +137,7 @@ QList<QList<int>> grid::get_list_index(QList<int> cord)
 }
 
 // Updateanje boje
-void grid::upListColors(int index, bool focus)
+void grid::updateListColors(int index, bool focus)
 {
     if (!focus) {
         return;
@@ -132,7 +145,7 @@ void grid::upListColors(int index, bool focus)
 
     // Resetiranje boje
     std::fill(listColors.begin(), listColors.end(), QString("#fff"));
-    QList<int> cord = get_cord(index);
+    QList<int> cord = get_coordinates(index);
 
     // Dohvacanje indexa celija u istom sub-kvadratu
     QList<QList<int>> neighbors = get_list_index(cord);
@@ -148,9 +161,9 @@ void grid::upListColors(int index, bool focus)
         int ind2 = 9 * (y_start + 1) + x;
         int ind3 = 9 * (y_start + 2) + x;
 
-        listColors[ind1] = QString("#e2e7ed");
-        listColors[ind2] = QString("#e2e7ed");
-        listColors[ind3] = QString("#e2e7ed");
+        listColors[ind1] = COLOR_SELECTED_RCS;
+        listColors[ind2] = COLOR_SELECTED_RCS;
+        listColors[ind3] = COLOR_SELECTED_RCS;
     }
 
     int x_start = cord[0];
@@ -161,13 +174,13 @@ void grid::upListColors(int index, bool focus)
         int ind1 = 9 * i + x_start;
         int ind2 = 9 * y_start + i;
 
-        listColors[ind1] = QString("#e2e7ed");
-        listColors[ind2] = QString("#e2e7ed");
+        listColors[ind1] = COLOR_SELECTED_RCS;
+        listColors[ind2] = COLOR_SELECTED_RCS;
     }
 
-    listColors[index] = QString("#d0d0d0");
+    listColors[index] = COLOR_SELECTED;
 
-    emit caseChanged();
+    emit cellChanged();
 }
 
 // Provjera progressa
@@ -176,7 +189,7 @@ void grid::check(bool b)
     bool a = true;
     int index;
     for (index = 0; index < 81; index++) {
-        QList<int> cord = get_cord(index);
+        QList<int> cord = get_coordinates(index);
         QList<QList<int>> neighbors = get_list_index(cord);
         QList<int> neighbors_x = neighbors[0];
         QList<int> neighbors_y = neighbors[1];
@@ -187,18 +200,18 @@ void grid::check(bool b)
             for (int j = 0; j < 3; j++) {
                 int y = neighbors_y[j];
                 int ind = 9 * y + x;
-                if (ind != index && listCases[ind] == listCases[index]) {
+                if (ind != index && listCells[ind] == listCells[index]) {
                     if (b) {
-                        listColors[ind] = "#EF9A9A";
-                        listColors[index] = "#EF9A9A";
+                        listColors[ind] = COLOR_FALSE;
+                        listColors[index] = COLOR_FALSE;
                         a = false;
                     } else {
                         a = false;
                     }
                 }
-                if (listCases[ind].isEmpty()) {
+                if (listCells[ind].isEmpty()) {
                     if (b) {
-                        listColors[ind] = "#EF9A9A";
+                        listColors[ind] = COLOR_FALSE;
                         a = false;
                     } else {
                         a = false;
@@ -210,18 +223,18 @@ void grid::check(bool b)
         // Check for conflicts within the same row
         for (int k = 0; k < 9; k++) {
             int ind = 9 * cord[1] + k;
-            if (ind != index && listCases[ind] == listCases[index]) {
+            if (ind != index && listCells[ind] == listCells[index]) {
                 if (b) {
-                    listColors[ind] = "#EF9A9A";
-                    listColors[index] = "#EF9A9A";
+                    listColors[ind] = COLOR_FALSE;
+                    listColors[index] = COLOR_FALSE;
                     a = false;
                 } else {
                     a = false;
                 }
             }
-            if (listCases[ind].isEmpty()) {
+            if (listCells[ind].isEmpty()) {
                 if (b) {
-                    listColors[ind] = "#EF9A9A";
+                    listColors[ind] = COLOR_FALSE;
                     a = false;
                 } else {
                     a = false;
@@ -232,18 +245,18 @@ void grid::check(bool b)
         // Check for conflicts within the same column
         for (int k = 0; k < 9; k++) {
             int ind = 9 * k + cord[0];
-            if (ind != index && listCases[ind] == listCases[index]) {
+            if (ind != index && listCells[ind] == listCells[index]) {
                 if (b) {
-                    listColors[ind] = "#EF9A9A";
-                    listColors[index] = "#EF9A9A";
+                    listColors[ind] = COLOR_FALSE;
+                    listColors[index] = COLOR_FALSE;
                     a = false;
                 } else {
                     a = false;
                 }
             }
-            if (listCases[ind].isEmpty()) {
+            if (listCells[ind].isEmpty()) {
                 if (b) {
-                    listColors[ind] = "#EF9A9A";
+                    listColors[ind] = COLOR_FALSE;
                     a = false;
                 } else {
                     a = false;
@@ -253,10 +266,10 @@ void grid::check(bool b)
     }
 
     if (a) {
-        std::fill(listColors.begin(), listColors.end(), "#C5E1A5");
+        std::fill(listColors.begin(), listColors.end(), COLOR_CORRECT);
     }
 
-    emit caseChanged();
+    emit cellChanged();
 }
 
 // Provjera ako postoji spremljena igra
@@ -273,11 +286,11 @@ void grid::save()
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             int index = j + 9 * i;
-            if (listCases[index] != QString()) {
-                if (listTypeCases[index] == false) {
-                    myfile << "-" + (listCases[index].toStdString());
+            if (listCells[index] != QString()) {
+                if (listCellTypes[index] == false) {
+                    myfile << "-" + (listCells[index].toStdString());
                 } else {
-                    myfile << listCases[index].toStdString();
+                    myfile << listCells[index].toStdString();
                 }
                 myfile << "|";
             } else {

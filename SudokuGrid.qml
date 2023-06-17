@@ -48,9 +48,9 @@ GridView {
                     font.pixelSize: 20
                     width: 55
                     height: 55
-                    // ListCases - vrijednost svih celija
-                    text: grid.cases[index]
-                    // listTypeCases - tipovi celija
+                    // ListCells - vrijednost svih celija
+                    text: grid.cells[index]
+                    // listCellTypes - tipovi celija
                     readOnly: grid.type[index]
                     // Boja brojeva - crno ako su zadani, plavo ako ih je igrac upisao
                     color: grid.type[index] ? "#000" : "#4a90e2"
@@ -62,44 +62,44 @@ GridView {
                     validator: RegularExpressionValidator { regularExpression: /[1-9]/ }
                     // Mijenjanje boje na focus
                     onFocusChanged: {
-                        grid.upListColors(index, focus)
+                        grid.updateListColors(index, focus)
                     }
 
                     // Unos brojeva
                     Keys.onPressed: {
                         switch (event.key) {
                         case Qt.Key_1:
-                            grid.upListCases(index, 1)
+                            grid.updateListCells(index, 1)
                             break;
                         case Qt.Key_2:
-                            grid.upListCases(index, 2)
+                            grid.updateListCells(index, 2)
                             break;
                         case Qt.Key_3:
-                            grid.upListCases(index, 3)
+                            grid.updateListCells(index, 3)
                             break;
                         case Qt.Key_4:
-                            grid.upListCases(index, 4)
+                            grid.updateListCells(index, 4)
                             break;
                         case Qt.Key_5:
-                            grid.upListCases(index, 5)
+                            grid.updateListCells(index, 5)
                             break;
                         case Qt.Key_6:
-                            grid.upListCases(index, 6)
+                            grid.updateListCells(index, 6)
                             break;
                         case Qt.Key_7:
-                            grid.upListCases(index, 7)
+                            grid.updateListCells(index, 7)
                             break;
                         case Qt.Key_8:
-                            grid.upListCases(index, 8)
+                            grid.updateListCells(index, 8)
                             break;
                         case Qt.Key_9:
-                            grid.upListCases(index, 9)
+                            grid.updateListCells(index, 9)
                             break;
                         case Qt.Key_Delete:
-                            grid.upListCases(index, 0)
+                            grid.updateListCells(index, 0)
                             break;
                         case Qt.Key_Backspace:
-                            grid.upListCases(index, 0)
+                            grid.updateListCells(index, 0)
                             break;
                         }
 

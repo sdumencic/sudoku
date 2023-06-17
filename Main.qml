@@ -372,7 +372,7 @@ Window {
             color: "#00BCD4"
             game: 5
             startingColor: "#00BCD4"
-            visible : grid.show_save_btn ? true : false
+            visible : grid.show_save_game ? true : false
         }
     }
 }
