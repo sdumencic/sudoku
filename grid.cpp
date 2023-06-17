@@ -40,6 +40,9 @@ void grid::initGrid()
 
     // Lista boja
     listColors.fill("white", 81);
+
+    // Lista celija rijesene mreze
+    listSolutionCells.fill(QString(), 81);
 }
 
 // Citanje txt filea
@@ -51,6 +54,7 @@ void grid::initGrid_file_txt(int i)
     listCells.clear();
     listCellTypes.clear();
     listColors.clear();
+    listSolutionCells.clear();
     listColors.resize(81, "white");
 
     // Postavljanje datoteke za citanje iz direktorija mreze
@@ -95,6 +99,60 @@ void grid::initGrid_file_txt(int i)
     }
 
     inputFile.close();
+
+    // Ucitavanje mreze za rjesenje
+    string inputSolutionFileName = "./mreze/" + to_string(i) + "rjesenje.txt";
+    ifstream inputSolutionFile(inputSolutionFileName);
+
+    if (!inputSolutionFile.is_open()) {
+        cerr << "Error while loading file " << inputSolutionFileName << "\n";
+        __throw_invalid_argument("File not found.");
+    }
+
+    lineCount = 0;
+
+    // Citanje svakog reda iz txt
+    while (getline(inputSolutionFile, line)) {
+        lineCount++;
+
+        istringstream ss(line);
+        string cell;
+
+        while (getline(ss, cell, '|')) {
+            try {
+                listSolutionCells.push_back(QString::fromStdString(cell));
+            } catch (const std::invalid_argument &e) {
+                cout << "NaN found in file " << inputSolutionFileName << " line " << lineCount
+                     << endl;
+            }
+        }
+    }
+
+    inputSolutionFile.close();
+
+    emit cellChanged();
+}
+
+// Rijesi jednu nasumicnu celiju
+void grid::help()
+{
+    QString searchString = "";
+    QList<int> indices;
+
+    for (int i = 0; i < listCells.size(); ++i) {
+        if (listCells[i] == searchString) {
+            indices.append(i);
+        }
+    }
+
+    if (!indices.isEmpty()) {
+        int randomIndex = std::rand() % indices.size();
+        int randomElement = indices[randomIndex];
+        listCells[randomElement] = listSolutionCells[randomElement];
+    }
+
+    check(false);
+
     emit cellChanged();
 }
 

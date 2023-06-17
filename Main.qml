@@ -16,6 +16,18 @@ Window {
     Material.accent: Material.Teal
 
     Button {
+        text: "Click"
+        z: 20
+        anchors {
+            bottom: parent.bottom
+        }
+
+        onClicked: {
+            grid.help()
+        }
+    }
+
+    Button {
         id: buttonStop
         height: 25
         width: 25

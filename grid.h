@@ -28,6 +28,7 @@ public:
     Q_INVOKABLE void updateListCells(int index, int txt);
     Q_INVOKABLE void updateListColors(int index, bool focus);
     Q_INVOKABLE void check(bool b);
+    Q_INVOKABLE void help();
     void check_saved_file();
 
 signals:
@@ -35,8 +36,9 @@ signals:
 
 private:
     QList<bool> listCellTypes;
-    QList<QString> listCells;    
+    QList<QString> listCells;
     QList<QString> listColors;
+    QList<QString> listSolutionCells;
     int m_level;
     bool show_save;
 };
