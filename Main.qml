@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.15
+import GameTimer 1.0
 
 Window {
     id: window
@@ -13,6 +14,28 @@ Window {
     property string teal: "#009688";
     property string lightTeal: "#80CBC4";
     Material.accent: Material.Teal
+
+    GameTimer {
+        id: timer
+    }
+
+    Text {
+        id: timerText
+        x: 20
+        y: 20
+        z: 10
+        color: teal
+        text: "00:00"
+        font.pointSize: 20
+        visible: false
+    }
+
+    Connections {
+        target: timer
+        function onTimeChanged(time) {
+            timerText.text = time;
+        }
+    }
 
     Popup {
         id: usernamePopup
@@ -226,6 +249,8 @@ Window {
                     anchors.fill: parent
                     onClicked: {
                         grid.initGrid_file_txt(grid.level)
+                        timer.stop()
+                        timer.start()
                     }
 
                     hoverEnabled: true

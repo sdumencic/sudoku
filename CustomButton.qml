@@ -24,6 +24,8 @@ Rectangle {
             rect_game.visible = true
             themeImage.visible = true
             customSwitch.visible = true
+            timerText.visible = true
+            timer.start();
         }
 
         hoverEnabled: true

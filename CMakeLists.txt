@@ -17,6 +17,7 @@ qt_add_executable(appsudoku
     player.cpp
     qml.qrc
     theme.cpp
+    gametimer.cpp
 )
 
 qt_add_qml_module(appsudoku
