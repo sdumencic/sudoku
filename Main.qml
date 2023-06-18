@@ -119,12 +119,10 @@ Window {
                     hoverEnabled: true
                     onEntered: {
                         checkButton.color = teal;
-                        checkButton.color = teal;
                         cursorShape = Qt.PointingHandCursor
                     }
 
                     onExited: {
-                        checkButton.color = "#03A9F4";
                         checkButton.color = "#03A9F4";
                     }
                 }
@@ -166,12 +164,10 @@ Window {
                     hoverEnabled: true
                     onEntered: {
                         restartButton.color = teal;
-                        restartButton.color = teal;
                         cursorShape = Qt.PointingHandCursor
                     }
 
                     onExited: {
-                        restartButton.color = "#00BCD4";
                         restartButton.color = "#00BCD4";
                     }
                 }
@@ -214,7 +210,7 @@ Window {
             id: backButton
             x: controlButtons.x - backButton.width - 20
             y: controlButtons.y - 10
-           z: 20
+            z: 20
             height: 70
             width: 70
 
