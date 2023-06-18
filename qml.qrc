@@ -20,5 +20,7 @@
         <file>components/UserDialog.qml</file>
         <file>components/MainMenu.qml</file>
         <file>components/TimerControls.qml</file>
+        <file>images/back.png</file>
+        <file>images/turn-back.png</file>
     </qresource>
 </RCC>

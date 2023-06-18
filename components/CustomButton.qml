@@ -22,7 +22,7 @@ Rectangle {
             text1.visible = false
             background.visible = false
             sudoku.visible = true
-            timer.start();
+            timer.start()
         }
 
         hoverEnabled: true

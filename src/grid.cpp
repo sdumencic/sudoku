@@ -356,6 +356,22 @@ void grid::save()
                 myfile << "|";
             }
         }
+
+        myfile << "\n";
+    }
+
+    myfile.close();
+
+    myfile.open("./mreze/5rjesenje.txt");
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            int index = j + 9 * i;
+            if (listSolutionCells[index] != QString()) {
+                myfile << listSolutionCells[index].toStdString();
+                myfile << "|";
+            }
+        }
+
         myfile << "\n";
     }
 

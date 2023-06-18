@@ -207,6 +207,50 @@ Window {
         IconButton {
             id: buttonHint
         }
+
+        // Back
+        Button {
+            id: buttonBack
+            x: row_buttons.x - buttonBack.width - 20
+            y: row_buttons.y - 10
+            z: 20
+            height: 70
+            width: 70
+
+            background: Rectangle {
+                radius: 100
+                color: buttonBack.hovered ? "lightblue" : "transparent"
+
+                Image {
+                    id: hint
+                    height: 50
+                    width: 50
+                    source: "qrc:///images/turn-back.png"
+                    fillMode: Image.PreserveAspectFit
+                    anchors.centerIn: parent
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    menu.visible = true
+                    guest.visible = true
+                    text1.visible = true
+                    background.visible = true
+                    sudoku.visible = false
+                    timer.reset()
+                    timer.stop()
+                }
+            }
+
+            onClicked: {
+                grid.help()
+            }
+        }
+
     }
 
     // Pozadina
