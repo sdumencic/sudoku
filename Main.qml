@@ -15,12 +15,9 @@ Window {
     property string lightTeal: "#80CBC4";
     Material.accent: Material.Teal
 
-    // User Dialog
     UserDialog {
         id: usernamePopup
     }
-
-
 
     Rectangle{
         id : sudoku
@@ -55,7 +52,6 @@ Window {
             }
         }
 
-        // Theme switch
         ThemeSwitch {
             id: customSwitch
         }
@@ -97,7 +93,6 @@ Window {
             }
         }
 
-        // Check - Restart - Save
         Row {
             id: row_buttons
             y: gridView.y+ gridView.height + 30
@@ -108,7 +103,7 @@ Window {
                 horizontalCenter: parent.horizontalCenter
             }
 
-            // Check
+            // Provjeri
             Rectangle {
                 id : button1
                 width: 130
@@ -117,7 +112,9 @@ Window {
                 radius : 5
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: { grid.check(true) }
+                    onClicked: {
+                        grid.check(true)
+                    }
 
                     hoverEnabled: true
                     onEntered: {
@@ -208,7 +205,7 @@ Window {
             id: buttonHint
         }
 
-        // Back
+        // Nazad
         Button {
             id: buttonBack
             x: row_buttons.x - buttonBack.width - 20
