@@ -38,7 +38,6 @@ Rectangle {
     }
 
     Text {
-        id: debutant
         height: 55
         width: 200
         anchors.verticalCenter: parent.verticalCenter

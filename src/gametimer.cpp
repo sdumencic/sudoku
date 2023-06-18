@@ -15,7 +15,7 @@ GameTimer::GameTimer(QObject *parent)
 
 void GameTimer::start()
 {
-    timer->start(1000); // 1 second interval
+    timer->start(1000);
 }
 
 void GameTimer::stop()

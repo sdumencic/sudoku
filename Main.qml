@@ -225,7 +225,7 @@ Window {
                     id: hint
                     height: 50
                     width: 50
-                    source: "qrc:///images/turn-back.png"
+                    source: "qrc:///images/back.png"
                     fillMode: Image.PreserveAspectFit
                     anchors.centerIn: parent
                 }

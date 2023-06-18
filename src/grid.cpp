@@ -163,13 +163,13 @@ QList<int> grid::get_coordinates(int index)
 }
 
 // Indexi elemenata u istom sub-kvadratu
-QList<QList<int>> grid::get_list_index(QList<int> cord)
+QList<QList<int>> grid::get_list_index(QList<int> coordinates)
 {
     QList<int> neighbors_x;
     QList<int> neighbors_y;
 
-    int x = cord[0];
-    int y = cord[1];
+    int x = coordinates[0];
+    int y = coordinates[1];
 
     int x_start = x - (x % 3);
     int y_start = y - (y % 3);
@@ -203,10 +203,10 @@ void grid::updateListColors(int index, bool focus)
 
     // Resetiranje boje
     std::fill(listColors.begin(), listColors.end(), QString("white"));
-    QList<int> cord = get_coordinates(index);
+    QList<int> coordinates = get_coordinates(index);
 
     // Dohvacanje indexa celija u istom sub-kvadratu
-    QList<QList<int>> neighbors = get_list_index(cord);
+    QList<QList<int>> neighbors = get_list_index(coordinates);
     QList<int> neighbors_x = neighbors[0];
     QList<int> neighbors_y = neighbors[1];
 
@@ -224,8 +224,8 @@ void grid::updateListColors(int index, bool focus)
         listColors[ind3] = COLOR_SELECTED_RCS;
     }
 
-    int x_start = cord[0];
-    int y_start = cord[1];
+    int x_start = coordinates[0];
+    int y_start = coordinates[1];
 
     // Oznacavanje istog retka i stupca, u kojem je celija na koju se kliknulo, sa sivom bojom
     for (int i = 0; i < 9; i++) {
@@ -247,8 +247,8 @@ void grid::check(bool b)
     bool a = true;
     int index;
     for (index = 0; index < 81; index++) {
-        QList<int> cord = get_coordinates(index);
-        QList<QList<int>> neighbors = get_list_index(cord);
+        QList<int> coordinates = get_coordinates(index);
+        QList<QList<int>> neighbors = get_list_index(coordinates);
         QList<int> neighbors_x = neighbors[0];
         QList<int> neighbors_y = neighbors[1];
 
@@ -280,7 +280,7 @@ void grid::check(bool b)
 
         // Check for conflicts within the same row
         for (int k = 0; k < 9; k++) {
-            int ind = 9 * cord[1] + k;
+            int ind = 9 * coordinates[1] + k;
             if (ind != index && listCells[ind] == listCells[index]) {
                 if (b) {
                     listColors[ind] = COLOR_FALSE;
@@ -302,7 +302,7 @@ void grid::check(bool b)
 
         // Check for conflicts within the same column
         for (int k = 0; k < 9; k++) {
-            int ind = 9 * k + cord[0];
+            int ind = 9 * k + coordinates[0];
             if (ind != index && listCells[ind] == listCells[index]) {
                 if (b) {
                     listColors[ind] = COLOR_FALSE;

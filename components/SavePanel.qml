@@ -14,7 +14,7 @@ Rectangle {
     color: "#009688"
     transformOrigin: Item.Center
     Text {
-        id: text_saved
+        id: saved
         height: 30
         width: 90
 
