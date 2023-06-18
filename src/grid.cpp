@@ -327,6 +327,8 @@ void grid::check(bool b)
 void grid::check_saved_file()
 {
     show_save = std::ifstream("./mreze/5.txt").good();
+
+    emit cellChanged();
 }
 
 // Spremanje igre

@@ -29,7 +29,7 @@ public:
     Q_INVOKABLE void updateListColors(int index, bool focus);
     Q_INVOKABLE void check(bool b);
     Q_INVOKABLE void help();
-    void check_saved_file();
+    Q_INVOKABLE void check_saved_file();
 
 signals:
     void cellChanged();
