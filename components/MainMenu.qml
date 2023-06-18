@@ -7,7 +7,7 @@ Column {
     y: window.height / 2 - menu.height / 2
 
     CustomButton {
-        id : menu_button1
+        id : menuButton1
         label: "Početnik"
         color: "#2ecc71"
         game: 1
@@ -15,7 +15,7 @@ Column {
     }
 
     CustomButton {
-        id : menu_button2
+        id : menuButton2
         label: "Lagano"
         color: "#1abc9c"
         game: 2
@@ -23,7 +23,7 @@ Column {
     }
 
     CustomButton {
-        id : menu_button3
+        id : menuButton3
         label: "Srednje"
         color: "#80CBC4"
         game: 3
@@ -31,7 +31,7 @@ Column {
     }
 
     CustomButton {
-        id : menu_button4
+        id : menuButton4
         label: "Napredno"
         color: "#ff9800"
         game: 4
@@ -39,7 +39,7 @@ Column {
     }
 
     CustomButton {
-        id : menu_button5
+        id : menuButton5
         label: "Nastavi spremljeno"
         color: "#00BCD4"
         game: 5

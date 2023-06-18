@@ -1,11 +1,11 @@
 import QtQuick 2.15
 
 Rectangle {
-    id: saved_pannel
+    id: savedPanel
     visible: false
     width: 500
     height: 170
-    y: window.height / 2 - saved_pannel.height / 2 - 30
+    y: window.height / 2 - savedPanel.height / 2 - 30
     anchors {
         horizontalCenter: parent.horizontalCenter
     }
@@ -18,12 +18,13 @@ Rectangle {
         height: 30
         width: 90
 
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.horizontalCenterOffset: 0
+        anchors {
+            verticalCenter: parent.verticalCenter
+            horizontalCenter: parent.horizontalCenter
+        }
+        
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        anchors.verticalCenterOffset: 0
 
         text: "Igra je spremljena"
         color: 'white'

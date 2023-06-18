@@ -35,7 +35,7 @@ void grid::initGrid()
     // Tip celije - false - obicna celija, true - predefinirana celija, ne moze se mijenjati
     listCellTypes.fill(false, 81);
 
-    //  Sadrzaj svake celije
+    // Sadrzaj svake celije
     listCells.fill(QString(), 81);
 
     // Lista boja
@@ -78,7 +78,7 @@ void grid::initGrid_file_txt(int i)
 
         // Odvajanje prema celijama iz txt datoteke na temelju '|'
         // . - prazno polje
-        // broj - predefinirano polje
+        // Broj - predefinirano polje
         // - - u spremljenim datotekama oznacava da nije predefinirani broj
         while (getline(ss, cell, '|')) {
             try {
@@ -165,8 +165,8 @@ QList<int> grid::get_coordinates(int index)
 // Indexi elemenata u istom sub-kvadratu
 QList<QList<int>> grid::get_list_index(QList<int> coordinates)
 {
-    QList<int> neighbors_x;
-    QList<int> neighbors_y;
+    QList<int> neighbours_x;
+    QList<int> neighbours_y;
 
     int x = coordinates[0];
     int y = coordinates[1];
@@ -175,14 +175,14 @@ QList<QList<int>> grid::get_list_index(QList<int> coordinates)
     int y_start = y - (y % 3);
 
     for (int i = 0; i < 3; i++) {
-        neighbors_x.push_back(x_start + i);
-        neighbors_y.push_back(y_start + i);
+        neighbours_x.push_back(x_start + i);
+        neighbours_y.push_back(y_start + i);
     }
 
-    QList<QList<int>> neighbors;
-    neighbors.push_back(neighbors_x);
-    neighbors.push_back(neighbors_y);
-    return neighbors;
+    QList<QList<int>> neighbours;
+    neighbours.push_back(neighbours_x);
+    neighbours.push_back(neighbours_y);
+    return neighbours;
 }
 
 // Updateanje vrijednosti na odredenom indexu s novim inputom
@@ -201,19 +201,16 @@ void grid::updateListColors(int index, bool focus)
         return;
     }
 
-    // Resetiranje boje
     std::fill(listColors.begin(), listColors.end(), QString("white"));
     QList<int> coordinates = get_coordinates(index);
 
-    // Dohvacanje indexa celija u istom sub-kvadratu
-    QList<QList<int>> neighbors = get_list_index(coordinates);
-    QList<int> neighbors_x = neighbors[0];
-    QList<int> neighbors_y = neighbors[1];
+    QList<QList<int>> neighbours = get_list_index(coordinates);
+    QList<int> neighbours_x = neighbours[0];
+    QList<int> neighbours_y = neighbours[1];
 
-    // Oznacavanje istog sub-kvadrata, u kojem se nalazi celija na koju se kliknulo, sa sivom bojom
     for (int i = 0; i < 3; i++) {
-        int x = neighbors_x[i];
-        int y_start = neighbors_y[0];
+        int x = neighbours_x[i];
+        int y_start = neighbours_y[0];
 
         int ind1 = 9 * (y_start + 0) + x;
         int ind2 = 9 * (y_start + 1) + x;
@@ -227,7 +224,6 @@ void grid::updateListColors(int index, bool focus)
     int x_start = coordinates[0];
     int y_start = coordinates[1];
 
-    // Oznacavanje istog retka i stupca, u kojem je celija na koju se kliknulo, sa sivom bojom
     for (int i = 0; i < 9; i++) {
         int ind1 = 9 * i + x_start;
         int ind2 = 9 * y_start + i;
@@ -241,22 +237,21 @@ void grid::updateListColors(int index, bool focus)
     emit cellChanged();
 }
 
-// Provjera progressa
+// Provjera stanja
 void grid::check(bool b)
 {
     bool a = true;
     int index;
     for (index = 0; index < 81; index++) {
         QList<int> coordinates = get_coordinates(index);
-        QList<QList<int>> neighbors = get_list_index(coordinates);
-        QList<int> neighbors_x = neighbors[0];
-        QList<int> neighbors_y = neighbors[1];
+        QList<QList<int>> neighbours = get_list_index(coordinates);
+        QList<int> neighbours_x = neighbours[0];
+        QList<int> neighbours_y = neighbours[1];
 
-        // Check for conflicts within the sub-grid
         for (int i = 0; i < 3; i++) {
-            int x = neighbors_x[i];
+            int x = neighbours_x[i];
             for (int j = 0; j < 3; j++) {
-                int y = neighbors_y[j];
+                int y = neighbours_y[j];
                 int ind = 9 * y + x;
                 if (ind != index && listCells[ind] == listCells[index]) {
                     if (b) {
@@ -278,7 +273,6 @@ void grid::check(bool b)
             }
         }
 
-        // Check for conflicts within the same row
         for (int k = 0; k < 9; k++) {
             int ind = 9 * coordinates[1] + k;
             if (ind != index && listCells[ind] == listCells[index]) {
@@ -300,7 +294,6 @@ void grid::check(bool b)
             }
         }
 
-        // Check for conflicts within the same column
         for (int k = 0; k < 9; k++) {
             int ind = 9 * k + coordinates[0];
             if (ind != index && listCells[ind] == listCells[index]) {

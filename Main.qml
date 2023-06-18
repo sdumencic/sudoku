@@ -94,7 +94,7 @@ Window {
         }
 
         Row {
-            id: row_buttons
+            id: controlButtons
             y: gridView.y+ gridView.height + 30
             width: 500
             height: 30
@@ -105,7 +105,7 @@ Window {
 
             // Provjeri
             Rectangle {
-                id : button1
+                id : checkButton
                 width: 130
                 height: 55
                 color: "#03A9F4"
@@ -118,12 +118,12 @@ Window {
 
                     hoverEnabled: true
                     onEntered: {
-                        button1.color = teal;
+                        checkButton.color = teal;
                         cursorShape = Qt.PointingHandCursor
                     }
 
                     onExited: {
-                        button1.color = "#03A9F4";
+                        checkButton.color = "#03A9F4";
                     }
                 }
 
@@ -149,7 +149,7 @@ Window {
 
             // Restart
             Rectangle {
-                id : button2
+                id : restartButton
                 width: 130
                 height: 55
                 color: "#00BCD4"
@@ -163,12 +163,12 @@ Window {
 
                     hoverEnabled: true
                     onEntered: {
-                        button2.color = teal;
+                        restartButton.color = teal;
                         cursorShape = Qt.PointingHandCursor
                     }
 
                     onExited: {
-                        button2.color = "#00BCD4";
+                        restartButton.color = "#00BCD4";
                     }
                 }
 
@@ -198,25 +198,25 @@ Window {
         }
 
         SavePanel {
-            id: saved_pannel
+            id: savedPanel
         }
 
         IconButton {
-            id: buttonHint
+            id: hintButton
         }
 
         // Nazad
         Button {
-            id: buttonBack
-            x: row_buttons.x - buttonBack.width - 20
-            y: row_buttons.y - 10
+            id: backButton
+            x: controlButtons.x - backButton.width - 20
+            y: controlButtons.y - 10
             z: 20
             height: 70
             width: 70
 
             background: Rectangle {
                 radius: 100
-                color: buttonBack.hovered ? "lightblue" : "transparent"
+                color: backButton.hovered ? "lightblue" : "transparent"
 
                 Image {
                     id: hint
@@ -235,11 +235,12 @@ Window {
                 onClicked: {
                     menu.visible = true
                     guest.visible = true
-                    text1.visible = true
+                    title.visible = true
                     background.visible = true
                     sudoku.visible = false
                     timer.reset()
                     timer.stop()
+                    grid.check_saved_file()
                 }
             }
 
@@ -259,7 +260,7 @@ Window {
 
     // Naslov
     Text {
-        id: text1
+        id: title
         y: 20
         width: 200
         text: "SUDOKU"

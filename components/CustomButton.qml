@@ -19,7 +19,7 @@ Rectangle {
             grid.initGrid_file_txt(game)
             menu.visible = false
             guest.visible = false
-            text1.visible = false
+            title.visible = false
             background.visible = false
             sudoku.visible = true
             timer.start()

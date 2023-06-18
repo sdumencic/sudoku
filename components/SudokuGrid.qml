@@ -35,10 +35,12 @@ GridView {
                 id : rect
                 width: 55
                 height: 55
+
                 // ListColors - boje
                 color: grid.colors[index]
                 border.color: "#cacaca"
                 border.width: 1
+                
                 TextInput {
                     id: textEdit                    
                     x: 5

@@ -6,7 +6,7 @@ Item {
     id: timerControls
 
     Button {
-        id: buttonStop
+        id: stopButton
         height: 25
         width: 25
         x: 100
@@ -23,7 +23,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
-            onClicked: buttonStop.clicked();
+            onClicked: stopButton.clicked();
         }
 
         Image {
@@ -40,7 +40,7 @@ Item {
     }
 
     Button {
-        id: buttonStart
+        id: startButton
         height: 25
         width: 25
         x: 130
@@ -57,7 +57,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
-            onClicked: buttonStart.clicked();
+            onClicked: startButton.clicked();
         }
 
         Image {

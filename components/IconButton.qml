@@ -3,16 +3,16 @@ import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.15
 
 Button {
-    id: buttonHint
-    x: row_buttons.x + row_buttons.width + 10
-    y: row_buttons.y - 10
+    id: hintButton
+    x: controlButtons.x + controlButtons.width + 10
+    y: controlButtons.y - 10
     z: 20
     height: 70
     width: 70
 
     background: Rectangle {
         radius: 100
-        color: buttonHint.hovered ? "lightblue" : "transparent"
+        color: hintButton.hovered ? "lightblue" : "transparent"
 
         Image {
             id: hint
@@ -28,7 +28,7 @@ Button {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        onClicked: buttonHint.clicked();
+        onClicked: hintButton.clicked();
     }
 
     onClicked: {

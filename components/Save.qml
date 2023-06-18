@@ -24,9 +24,9 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled : true
         onClicked: {
-            saved_pannel.visible = true
+            savedPanel.visible = true
             grid.save()
-            timer.setTimeout(function(){ saved_pannel.visible = false }, 1000);
+            timer.setTimeout(function(){ savedPanel.visible = false }, 1000);
         }
 
         onExited: {
