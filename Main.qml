@@ -15,244 +15,64 @@ Window {
     property string lightTeal: "#80CBC4";
     Material.accent: Material.Teal
 
-    Button {
-        id: buttonStop
-        height: 25
-        width: 25
-        x: 100
-        y: 25
-        z: 20
-        visible: false
-        background: Rectangle {
-            color: "transparent"
-        }
-
-        onClicked: {
-            timer.stop();
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-            onClicked: buttonStop.clicked();
-        }
-
-        Image {
-            id : stop
-            height: 25
-            width: 25
-            visible: true
-            source: "qrc:///images/pause-button.png"
-            fillMode: Image.Stretch
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                verticalCenter: parent.verticalCenter
-            }
-        }
-    }
-
-    Button {
-        id: buttonStart
-        height: 25
-        width: 25
-        x: 130
-        y: 25
-        z: 20
-        visible: false
-        background: Rectangle {
-            color: "transparent"
-        }
-
-        onClicked: {
-            timer.start();
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-            onClicked: buttonStart.clicked();
-        }
-
-        Image {
-            id : start
-            height: 25
-            width: 25
-            visible: true
-            source: "qrc:///images/play-button.png"
-            fillMode: Image.Stretch
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                verticalCenter: parent.verticalCenter
-            }
-        }
-    }
-
-    GameTimer {
-        id: timer
-    }
-
-    Text {
-        id: timerText
-        x: 20
-        y: 20
-        z: 10
-        color: teal
-        text: "00:00"
-        font.pointSize: 20
-        visible: false
-    }
-
-    Connections {
-        target: timer
-        function onTimeChanged(time) {
-            timerText.text = time;
-        }
-    }
-
-    Popup {
+    // User Dialog
+    UserDialog {
         id: usernamePopup
-        modal: true
-        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-        anchors {
-            centerIn: parent
-        }
-
-        width: 500
-        height: 200
-        background: Rectangle {
-            radius: 8
-        }
-
-        contentItem: Rectangle {
-            color: "white"
-
-            Column {
-                spacing: 20
-                anchors.centerIn: parent
-
-                TextField {
-                    width: 220
-                    id: usernameInput
-                    placeholderText: "Unesi svoje ime"
-                    font.pixelSize: 20
-                    validator: RegularExpressionValidator  { regularExpression: /^([a-zA-Z]{1,10})$/ }
-                }
-
-                Row {
-                    spacing: 20
-                    anchors.horizontalCenter: parent.horizontalCenter
-
-                    Button {
-                        id: ok
-                        text: "U redu"
-                        font.pixelSize: 20
-                        width: 100
-                        onClicked: {
-                            var username = usernameInput.text.trim()
-
-                            if(username.length > 0){
-                                player.setName(username)
-                            }
-
-                            usernamePopup.close()
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: ok.clicked();
-                        }
-                    }
-
-                    Button {
-                        id: cancel
-                        text: "Odustani"
-                        font.pixelSize: 20
-                        width: 100
-                        onClicked: {
-                            usernamePopup.close()
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: cancel.clicked();
-                        }
-                    }
-                }
-            }
-        }
     }
 
-    // Theme switch
-    Item {
-        id: customSwitch
-        width: 44
-        height: 24
-        y: 20
-        z: 10
-        visible: false
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-        }
 
-        Rectangle {
-            width: 44
-            height: 24
-            radius: height / 2
-            color: switchControl.checked ? "#FFF59D" : "lightgray"
-
-            Rectangle {
-                id: handle
-                width: 24
-                height: 24
-                radius: width / 2
-                color: switchControl.checked ? "#FF9800" : "gray"
-                border.color: switchControl.checked ? "#FF9800" : "gray"
-                border.width: 2
-                anchors.horizontalCenter: switchControl.checked ? parent.right : parent.left
-            }
-        }
-
-        MouseArea {
-            id: switchControl
-            width: parent.width
-            height: parent.height
-            cursorShape: Qt.PointingHandCursor
-            property bool checked: theme.isLight;
-
-            onClicked: {
-                checked = !theme.isLight
-                theme.setIsLight(checked)
-                themeImage.source = theme.isLight ? "qrc:///images/sun.png" : "qrc:///images/moon.png"
-            }
-        }
-    }
-
-    Image {
-        id: themeImage
-        x: customSwitch.x + customSwitch.width + 20
-        y: 10
-        z: 10
-        source: "qrc:///images/sun.png"
-        height: 50
-        width: 50
-        visible: false
-        anchors {
-            right: parent.right
-            rightMargin: 20
-        }
-    }
 
     Rectangle{
-        id : rect_game
+        id : sudoku
         width: window.width
         height: window.height
-        x : window.width / 2 - rect_game.width / 2
+        x : window.width / 2 - sudoku.width / 2
         visible : false
         color: theme.isLight ? "white" : "#3c3c3c"
+
+        TimerControls {
+            id: timerControls
+        }
+
+        GameTimer {
+            id: timer
+        }
+
+        Text {
+            id: timerText
+            x: 20
+            y: 20
+            z: 10
+            color: teal
+            text: "00:00"
+            font.pointSize: 20
+        }
+
+        Connections {
+            target: timer
+            function onTimeChanged(time) {
+                timerText.text = time;
+            }
+        }
+
+        // Theme switch
+        ThemeSwitch {
+            id: customSwitch
+        }
+
+        Image {
+            id: themeImage
+            x: customSwitch.x + customSwitch.width + 20
+            y: 10
+            z: 10
+            source: "qrc:///images/sun.png"
+            height: 50
+            width: 50
+            anchors {
+                right: parent.right
+                rightMargin: 20
+            }
+        }
 
         SudokuGrid {
             id: gridView
@@ -378,81 +198,20 @@ Window {
             Save {
                 id: save
             }
-
         }
 
-        Rectangle {
+        SavePanel {
             id: saved_pannel
-            visible: false
-            width: 500
-            height: 170
-            y: window.height / 2 - saved_pannel.height / 2 - 30
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-            }
-
-            opacity: 0.9
-            color: "#009688"
-            transformOrigin: Item.Center
-            Text {
-                id: text_saved
-                height: 30
-                width: 90
-
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.horizontalCenterOffset: 0
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                anchors.verticalCenterOffset: 0
-
-                text: "Igra je spremljena"
-                color: 'white'
-                font.pixelSize: 40
-                font.family: "Arial"
-            }
         }
 
-        Button {
+        IconButton {
             id: buttonHint
-            x: row_buttons.x + row_buttons.width + 10
-            y: row_buttons.y - 10
-            z: 20
-            height: 70
-            width: 70
-
-            background: Rectangle {
-                radius: 100
-                color: buttonHint.hovered ? "lightblue" : "transparent"
-
-                Image {
-                    id: hint
-                    height: 50
-                    width: 50
-                    source: "qrc:///images/lightbulb.png"
-                    fillMode: Image.PreserveAspectFit
-                    anchors.centerIn: parent
-                }
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onClicked: buttonHint.clicked();
-            }
-
-            onClicked: {
-                grid.help()
-            }
         }
-
     }
 
     // Pozadina
     Image {
         id : background
-        visible: true
         source: "qrc:///images/background.png"
         z: -1
     }
@@ -478,51 +237,7 @@ Window {
         id: guest
     }
 
-    Column {
+    MainMenu {
         id: menu
-        spacing: 20
-        x: window.width / 2 - menu.width / 2
-        y: window.height / 2 - menu.height / 2
-
-        CustomButton {
-            id : button_menu1
-            label: "Početnik"
-            color: "#2ecc71"
-            game: 1
-            startingColor: "#2ecc71"
-        }
-
-        CustomButton {
-            id : button_menu2
-            label: "Lagano"
-            color: "#1abc9c"
-            game: 2
-            startingColor: "#1abc9c"
-        }
-
-        CustomButton {
-            id : button_menu3
-            label: "Srednje"
-            color: "#80CBC4"
-            game: 3
-            startingColor: "#80CBC4"
-        }
-
-        CustomButton {
-            id : button_menu4
-            label: "Napredno"
-            color: "#ff9800"
-            game: 4
-            startingColor: "#ff9800"
-        }
-
-        CustomButton {
-            id : button_menu5
-            label: "Nastavi spremljeno"
-            color: "#00BCD4"
-            game: 5
-            startingColor: "#00BCD4"
-            visible : grid.show_save_game ? true : false
-        }
     }
 }

@@ -47,7 +47,6 @@ Rectangle{
             id : edit
             height: 20
             width: 20
-            visible: true
             source: "qrc:///images/edit.png"
             fillMode: Image.Stretch
             anchors {

@@ -30,6 +30,12 @@ qt_add_qml_module(appsudoku
         components/ColorColumn.qml
         components/Save.qml
         components/Player.qml
+        components/ThemeSwitch.qml
+        components/IconButton.qml
+        components/SavePanel.qml
+        components/UserDialog.qml
+        components/MainMenu.qml
+        components/TimerControls.qml
 )
 
 # Dodavanje direktorija s mrezama

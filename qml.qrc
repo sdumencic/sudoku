@@ -14,5 +14,11 @@
         <file>components/Player.qml</file>
         <file>components/Save.qml</file>
         <file>components/SudokuGrid.qml</file>
+        <file>components/ThemeSwitch.qml</file>
+        <file>components/IconButton.qml</file>
+        <file>components/SavePanel.qml</file>
+        <file>components/UserDialog.qml</file>
+        <file>components/MainMenu.qml</file>
+        <file>components/TimerControls.qml</file>
     </qresource>
 </RCC>

@@ -21,13 +21,7 @@ Rectangle {
             guest.visible = false
             text1.visible = false
             background.visible = false
-            rect_game.visible = true
-            themeImage.visible = true
-            customSwitch.visible = true
-            timerText.visible = true            
-            buttonStop.visible = true
-            buttonStart.visible = true
-            buttonHint.visible = true
+            sudoku.visible = true
             timer.start();
         }
 
