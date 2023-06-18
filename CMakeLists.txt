@@ -13,23 +13,23 @@ qt_standard_project_setup()
 
 qt_add_executable(appsudoku
     main.cpp
-    grid.cpp
-    player.cpp
+    src/grid.cpp
+    src/player.cpp
+    src/theme.cpp
+    src/gametimer.cpp
     qml.qrc
-    theme.cpp
-    gametimer.cpp
 )
 
 qt_add_qml_module(appsudoku
     URI sudoku
     VERSION 1.0
     QML_FILES Main.qml
-        CustomButton.qml
-        SudokuGrid.qml
-        ColorRow.qml
-        ColorColumn.qml
-        Save.qml
-        Player.qml
+        components/CustomButton.qml
+        components/SudokuGrid.qml
+        components/ColorRow.qml
+        components/ColorColumn.qml
+        components/Save.qml
+        components/Player.qml
 )
 
 # Dodavanje direktorija s mrezama

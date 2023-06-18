@@ -3,17 +3,16 @@
         <file>images/edit.png</file>
         <file>images/sudoku.png</file>
         <file>images/background.png</file>
-        <file>CustomButton.qml</file>
-        <file>Main.qml</file>
-        <file>SudokuGrid.qml</file>
-        <file>ColorRow.qml</file>
-        <file>ColorColumn.qml</file>
-        <file>Player.qml</file>
-        <file>Save.qml</file>
         <file>images/moon.png</file>
         <file>images/sun.png</file>
         <file>images/pause-button.png</file>
         <file>images/play-button.png</file>
         <file>images/lightbulb.png</file>
+        <file>components/ColorColumn.qml</file>
+        <file>components/ColorRow.qml</file>
+        <file>components/CustomButton.qml</file>
+        <file>components/Player.qml</file>
+        <file>components/Save.qml</file>
+        <file>components/SudokuGrid.qml</file>
     </qresource>
 </RCC>

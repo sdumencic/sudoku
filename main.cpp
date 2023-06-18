@@ -3,10 +3,10 @@
 #include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QtQml>
-#include "gametimer.h".
-#include "grid.h"
-#include "player.h"
-#include "theme.h"
+#include "src/gametimer.h".
+#include "src/grid.h"
+#include "src/player.h"
+#include "src/theme.h"
 
 int main(int argc, char *argv[])
 {

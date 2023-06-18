@@ -16,18 +16,6 @@ Window {
     Material.accent: Material.Teal
 
     Button {
-        text: "Click"
-        z: 20
-        anchors {
-            bottom: parent.bottom
-        }
-
-        onClicked: {
-            grid.help()
-        }
-    }
-
-    Button {
         id: buttonStop
         height: 25
         width: 25
@@ -41,6 +29,12 @@ Window {
 
         onClicked: {
             timer.stop();
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            onClicked: buttonStop.clicked();
         }
 
         Image {
@@ -71,6 +65,12 @@ Window {
 
         onClicked: {
             timer.start();
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            onClicked: buttonStart.clicked();
         }
 
         Image {
@@ -143,23 +143,42 @@ Window {
                     anchors.horizontalCenter: parent.horizontalCenter
 
                     Button {
+                        id: ok
                         text: "U redu"
                         font.pixelSize: 20
                         width: 100
                         onClicked: {
                             var username = usernameInput.text.trim()
-                            player.setName(username)
+
+                            if(username.length > 0){
+                                player.setName(username)
+                            }
 
                             usernamePopup.close()
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: ok.clicked();
                         }
                     }
 
                     Button {
+                        id: cancel
                         text: "Odustani"
                         font.pixelSize: 20
                         width: 100
                         onClicked: {
                             usernamePopup.close()
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: cancel.clicked();
                         }
                     }
                 }
@@ -201,6 +220,7 @@ Window {
             id: switchControl
             width: parent.width
             height: parent.height
+            cursorShape: Qt.PointingHandCursor
             property bool checked: theme.isLight;
 
             onClicked: {
@@ -395,31 +415,38 @@ Window {
 
         Button {
             id: buttonHint
-            x: row_buttons.x + row_buttons.width + 30
-            y: row_buttons.y
+            x: row_buttons.x + row_buttons.width + 10
+            y: row_buttons.y - 10
             z: 20
-            height: 50
-            width: 50
+            height: 70
+            width: 70
+
             background: Rectangle {
-                color: "transparent"
+                radius: 100
+                color: buttonHint.hovered ? "lightblue" : "transparent"
+
+                Image {
+                    id: hint
+                    height: 50
+                    width: 50
+                    source: "qrc:///images/lightbulb.png"
+                    fillMode: Image.PreserveAspectFit
+                    anchors.centerIn: parent
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onClicked: buttonHint.clicked();
             }
 
             onClicked: {
                 grid.help()
             }
-
-            Image {
-                id: hint
-                height: 50
-                width: 50
-                source: "qrc:///images/lightbulb.png"
-                fillMode: Image.Stretch
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    verticalCenter: parent.verticalCenter
-                }
-            }
         }
+
     }
 
     // Pozadina
