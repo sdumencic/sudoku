@@ -211,7 +211,7 @@ Window {
                     verticalAlignment: Text.AlignVCenter
                     anchors.verticalCenterOffset: 0
 
-                    text: "Restart"
+                    text: "Nova igra"
                     color: 'white'
                     font.pixelSize: 20
                     font.family: "Arial"
