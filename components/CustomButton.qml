@@ -16,6 +16,7 @@ Rectangle {
         width: 200
         anchors.fill: parent
         onClicked: {
+            grid.generate()
             grid.initGrid_file_txt(game)
             menu.visible = false
             guest.visible = false

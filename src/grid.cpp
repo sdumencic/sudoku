@@ -55,84 +55,47 @@ void grid::initGrid_file_txt(int i)
     m_level = i;
 
     // Postavljanje cistog pocetnog stanja
-    listCells.clear();
+    //    listCells.clear();
     listCellTypes.clear();
     listColors.clear();
-    listSolutionCells.clear();
+    //    listSolutionCells.clear();
     listColors.resize(81, "white");
 
-    // Postavljanje datoteke za citanje iz direktorija mreze
-    string inputFileName = "./mreze/" + to_string(i) + ".txt";
-    ifstream inputFile(inputFileName);
-
-    if (!inputFile.is_open()) {
-        cerr << "Error while loading file " << inputFileName << "\n";
-        __throw_invalid_argument("File not found.");
-    }
-
-    string line;
-    int lineCount = 0;
-
-    // Citanje svakog reda iz txt
-    while (getline(inputFile, line)) {
-        lineCount++;
-
-        istringstream ss(line);
-        string cell;
-
-        // Odvajanje prema celijama iz txt datoteke na temelju '|'
-        // . - prazno polje
-        // Broj - predefinirano polje
-        // - - u spremljenim datotekama oznacava da nije predefinirani broj
-        while (getline(ss, cell, '|')) {
-            try {
-                if (cell == ".") {
-                    listCells.push_back(QString());
-                    listCellTypes.push_back(false);
-                } else if (cell.substr(0, 1) == "-") {
-                    listCells.push_back(QString::fromStdString(cell.substr(1, 2)));
-                    listCellTypes.push_back(false);
-                } else {
-                    listCells.push_back(QString::fromStdString(cell));
-                    listCellTypes.push_back(true);
-                }
-            } catch (const std::invalid_argument &e) {
-                cout << "NaN found in file " << inputFileName << " line " << lineCount << endl;
-            }
+    for (int coord_x = 0; coord_x < 9; coord_x++) {
+        for (int coord_y = 0; coord_y < 9; coord_y++) {
+            int index = coord_x * 9 + coord_y;
+            listCells[index] = QString::number(this->array[coord_x][coord_y]);
         }
     }
 
-    inputFile.close();
+    listSolutionCells = listCells;
 
-    // Ucitavanje mreze za rjesenje
-    string inputSolutionFileName = "./mreze/" + to_string(i) + "rjesenje.txt";
-    ifstream inputSolutionFile(inputSolutionFileName);
+    int numOfBlanks;
 
-    if (!inputSolutionFile.is_open()) {
-        cerr << "Error while loading file " << inputSolutionFileName << "\n";
-        __throw_invalid_argument("File not found.");
+    switch (m_level) {
+    case 1:
+        numOfBlanks = 10;
+        break;
+    case 2:
+        numOfBlanks = 15;
+        break;
+    case 3:
+        numOfBlanks = 20;
+        break;
     }
 
-    lineCount = 0;
+    for (int i = 0; i < numOfBlanks; ++i) {
+        int randomIndex = std::rand() % listCells.size();
+        listCells[randomIndex] = "";
+    }
 
-    // Citanje svakog reda iz txt
-    while (getline(inputSolutionFile, line)) {
-        lineCount++;
-
-        istringstream ss(line);
-        string cell;
-
-        while (getline(ss, cell, '|')) {
-            try {
-                listSolutionCells.push_back(QString::fromStdString(cell));
-            } catch (const std::invalid_argument &e) {
-                cout << "NaN found in file " << inputSolutionFileName << " line " << lineCount
-                     << endl;
-            }
+    for (int i = 0; i < listCells.size(); ++i) {
+        if (listCells[i] != "") {
+            listCellTypes.push_back(true);
+        } else {
+            listCellTypes.push_back(false);
         }
     }
-
-    inputSolutionFile.close();
 
     emit cellChanged();
 }
@@ -181,7 +144,6 @@ void grid::save()
 
 void grid::changeIsLight(bool isLight)
 {
-    qDebug() << isLight;
     for (int i = 0; i < listColors.size(); ++i) {
         if (!isLight && listColors[i] == "white") {
             listColors[i] = COLOR_DARK;
@@ -395,19 +357,6 @@ void grid::check_saved_file()
 
 const int numbers1to9[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-void grid::print()
-{
-    for (int coord_x = 0; coord_x < 9; coord_x++) {
-        for (int coord_y = 0; coord_y < 9; coord_y++) {
-            cout << this->array[coord_x][coord_y] << " ";
-            if (coord_y % 3 == 2)
-                cout << "\t"; //if printed 3 numbers in string do "\t"
-        }
-        cout << endl; //if printed full string do "\n"
-        if (coord_x % 3 == 2)
-            cout << endl; //if printed 3 strings do additional "\n"
-    }
-}
 bool grid::uniqueCheck(int coord_x, int coord_y, int number)
 {
     //checks, if there are any contradictions with sudoku logic

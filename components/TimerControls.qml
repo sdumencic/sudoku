@@ -13,7 +13,7 @@ Item {
         y: 25
         z: 20
         ToolTip.visible: hovered
-        ToolTip.text: "Pauziraj"
+        ToolTip.text: isStart ? "Pauziraj" : "Nastavi"
         property bool isStart: true;
 
         background: Rectangle {
@@ -42,7 +42,7 @@ Item {
             id : stop
             height: 25
             width: 25
-            source: controlButton.isStart ? "qrc:///images/play-button.png" : "qrc:///images/pause-button.png"
+            source: controlButton.isStart ? "qrc:///images/pause-button.png" : "qrc:///images/play-button.png"
             fillMode: Image.Stretch
             anchors {
                 horizontalCenter: parent.horizontalCenter
@@ -50,41 +50,4 @@ Item {
             }
         }
     }
-
-//    Button {
-//        id: startButton
-//        height: 25
-//        width: 25
-//        x: 130
-//        y: 25
-//        z: 20
-//        ToolTip.visible: hovered
-//        ToolTip.text: "Nastavi"
-//        background: Rectangle {
-//            color: "transparent"
-//        }
-
-//        onClicked: {
-//            timer.start();
-//            gridView.visible = true;
-//        }
-
-//        MouseArea {
-//            anchors.fill: parent
-//            cursorShape: Qt.PointingHandCursor
-//            onClicked: startButton.clicked();
-//        }
-
-//        Image {
-//            id : start
-//            height: 25
-//            width: 25
-//            source: "qrc:///images/play-button.png"
-//            fillMode: Image.Stretch
-//            anchors {
-//                horizontalCenter: parent.horizontalCenter
-//                verticalCenter: parent.verticalCenter
-//            }
-//        }
-//    }
 }

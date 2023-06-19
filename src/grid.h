@@ -42,7 +42,6 @@ public:
     bool generationFailureCheck(int coord_x, int coord_y);
     bool generateSquare3x3(int sq_coord_x, int sq_coord_y);
     bool uniqueCheck(int coord_x, int coord_y, int number);
-    Q_INVOKABLE void print();
     int array[9][9];
 
 signals:
