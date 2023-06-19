@@ -55,10 +55,8 @@ void grid::initGrid_file_txt(int i)
     m_level = i;
 
     // Postavljanje cistog pocetnog stanja
-    //    listCells.clear();
     listCellTypes.clear();
     listColors.clear();
-    //    listSolutionCells.clear();
     listColors.resize(81, "white");
 
     for (int coord_x = 0; coord_x < 9; coord_x++) {
@@ -352,8 +350,6 @@ void grid::check_saved_file()
 
     emit cellChanged();
 }
-
-////////////////////////////////////
 
 const int numbers1to9[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
