@@ -3,6 +3,9 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.15
 import GameTimer 1.0
+import GridClass 1.0
+import User 1.0
+import Theme 1.0
 
 Window {
     id: window
@@ -14,6 +17,18 @@ Window {
     property string teal: "#009688";
     property string lightTeal: "#80CBC4";
     Material.accent: Material.Teal
+
+    GridClass {
+        id: grid
+    }
+
+    User {
+        id: player
+    }
+
+    Theme {
+        id: theme
+    }
 
     UserDialog {
         id: usernamePopup
@@ -213,6 +228,8 @@ Window {
             z: 20
             height: 70
             width: 70
+            ToolTip.visible: hovered
+            ToolTip.text: "Idi nazad"
 
             background: Rectangle {
                 radius: 100

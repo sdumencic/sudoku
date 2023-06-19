@@ -1,4 +1,5 @@
 #include "grid.h"
+#include <QDebug>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -18,6 +19,9 @@ const QString COLOR_FALSE = "#EF9A9A";
 
 // Boja za oznacavanje gotove igre - svijetlo zelena
 const QString COLOR_CORRECT = "#C5E1A5";
+
+// Boja za tamnu temu
+const QString COLOR_DARK = "#3C3C3C";
 
 grid::grid(QObject *parent)
     : QObject(parent)
@@ -371,4 +375,18 @@ void grid::save()
     }
 
     myfile.close();
+}
+
+void grid::changeIsLight(bool isLight)
+{
+    qDebug() << isLight;
+    for (int i = 0; i < listColors.size(); ++i) {
+        if (!isLight && listColors[i] == "white") {
+            listColors[i] = COLOR_DARK;
+        } else if (isLight && listColors[i] == COLOR_DARK) {
+            listColors[i] = "white";
+        }
+    }
+
+    emit cellChanged();
 }

@@ -58,7 +58,7 @@ GridView {
                     readOnly: grid.type[index]
 
                     // Boja brojeva - crno ako su zadani, plavo ako ih je igrac upisao
-                    color: grid.type[index] ? "#000000" : "#4a90e2"
+                    color: grid.type[index] ? (theme.isLight ? "#000000" : "#999999") : "#4a90e2"
 
                     // Validacija inputa
                     maximumLength: 1
@@ -73,6 +73,7 @@ GridView {
                     // Mijenjanje boje na focus
                     onFocusChanged: {
                         grid.updateListColors(index, focus)
+                        grid.changeIsLight(theme.isLight)
                     }
 
                     // Unos brojeva
@@ -111,10 +112,13 @@ GridView {
                         case Qt.Key_Backspace:
                             grid.updateListCells(index, 0)
                             break;
+                        default :
+                            grid.updateListCells(index, 0)
                         }
 
                         // Provjera ako je grid ispravno ispunjen
                         grid.check(false)
+                        grid.changeIsLight(theme.isLight)
                     }
                 }
             }

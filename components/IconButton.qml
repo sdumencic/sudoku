@@ -10,6 +10,9 @@ Button {
     height: 70
     width: 70
 
+    ToolTip.visible: hovered
+    ToolTip.text: "Riješi 1 nasumičnu ćeliju"
+
     background: Rectangle {
         radius: 100
         color: hintButton.hovered ? "lightblue" : "transparent"

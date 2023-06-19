@@ -30,6 +30,7 @@ public:
     Q_INVOKABLE void check(bool b);
     Q_INVOKABLE void help();
     Q_INVOKABLE void check_saved_file();
+    Q_INVOKABLE void changeIsLight(bool isLight);
 
 signals:
     void cellChanged();

@@ -24,6 +24,8 @@ Rectangle{
         id: editPlayer
         height: 50
         width: 50
+        ToolTip.visible: hovered
+        ToolTip.text: "Uredi"
         onClicked: {
             usernamePopup.open()
         }

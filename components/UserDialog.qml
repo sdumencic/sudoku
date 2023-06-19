@@ -32,6 +32,7 @@ Popup {
             }
 
             Row {
+                id: popupButtonRow
                 spacing: 20
                 anchors.horizontalCenter: parent.horizontalCenter
 
@@ -39,7 +40,9 @@ Popup {
                     id: ok
                     text: "U redu"
                     font.pixelSize: 20
-                    width: 100
+                    width: popupButtonRow.width / 2 - popupButtonRow.spacing
+                    ToolTip.visible: hovered
+                    ToolTip.text: "U redu"
                     onClicked: {
                         var username = usernameInput.text.trim()
 
@@ -63,6 +66,8 @@ Popup {
                     text: "Odustani"
                     font.pixelSize: 20
                     width: 100
+                    ToolTip.visible: hovered
+                    ToolTip.text: "Odustani"
                     onClicked: {
                         usernamePopup.close()
                     }

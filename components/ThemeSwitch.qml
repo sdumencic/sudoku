@@ -37,8 +37,10 @@ Item {
 
         onClicked: {
             checked = !theme.isLight
+            grid.changeIsLight(checked)
             theme.setIsLight(checked)
             themeImage.source = theme.isLight ? "qrc:///images/sun.png" : "qrc:///images/moon.png"
+
         }
     }
 }
