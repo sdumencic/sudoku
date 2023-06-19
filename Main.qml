@@ -18,6 +18,18 @@ Window {
     property string lightTeal: "#80CBC4";
     Material.accent: Material.Teal
 
+    Button {
+        text: "Click"
+        anchors {
+            bottom: parent.bottom
+        }
+
+        onClicked: {
+            grid.generate()
+            grid.print()
+        }
+    }
+
     GridClass {
         id: grid
     }

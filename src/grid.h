@@ -31,7 +31,19 @@ public:
     Q_INVOKABLE void help();
     Q_INVOKABLE void check_saved_file();
     Q_INVOKABLE void changeIsLight(bool isLight);
-    void check_elements(int index);
+
+    Q_INVOKABLE bool generate()
+    {
+        while (!generator())
+            ;
+    }
+
+    bool generator();
+    bool generationFailureCheck(int coord_x, int coord_y);
+    bool generateSquare3x3(int sq_coord_x, int sq_coord_y);
+    bool uniqueCheck(int coord_x, int coord_y, int number);
+    Q_INVOKABLE void print();
+    int array[9][9];
 
 signals:
     void cellChanged();
