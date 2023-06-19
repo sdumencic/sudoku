@@ -137,6 +137,62 @@ void grid::initGrid_file_txt(int i)
     emit cellChanged();
 }
 
+// Spremanje igre
+void grid::save()
+{
+    std::ofstream myfile;
+    myfile.open("./mreze/saved.txt");
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            int index = j + 9 * i;
+            if (listCells[index] != QString()) {
+                if (listCellTypes[index] == false) {
+                    myfile << "-" + (listCells[index].toStdString());
+                } else {
+                    myfile << listCells[index].toStdString();
+                }
+                myfile << "|";
+            } else {
+                myfile << ".";
+                myfile << "|";
+            }
+        }
+
+        myfile << "\n";
+    }
+
+    myfile.close();
+
+    myfile.open("./mreze/savedrjesenje.txt");
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            int index = j + 9 * i;
+            if (listSolutionCells[index] != QString()) {
+                myfile << listSolutionCells[index].toStdString();
+                myfile << "|";
+            }
+        }
+
+        myfile << "\n";
+    }
+
+    myfile.close();
+}
+
+void grid::changeIsLight(bool isLight)
+{
+    qDebug() << isLight;
+    for (int i = 0; i < listColors.size(); ++i) {
+        if (!isLight && listColors[i] == "white") {
+            listColors[i] = COLOR_DARK;
+        } else if (isLight && listColors[i] == COLOR_DARK) {
+            listColors[i] = "white";
+        }
+    }
+
+    emit cellChanged();
+}
+
 // Rijesi jednu nasumicnu celiju
 void grid::help()
 {
@@ -216,9 +272,9 @@ void grid::updateListColors(int index, bool focus)
         int x = neighbours_x[i];
         int y_start = neighbours_y[0];
 
-        int ind1 = 9 * (y_start + 0) + x;
-        int ind2 = 9 * (y_start + 1) + x;
-        int ind3 = 9 * (y_start + 2) + x;
+        const int ind1 = 9 * (y_start + 0) + x;
+        const int ind2 = 9 * (y_start + 1) + x;
+        const int ind3 = 9 * (y_start + 2) + x;
 
         listColors[ind1] = COLOR_SELECTED_RCS;
         listColors[ind2] = COLOR_SELECTED_RCS;
@@ -229,8 +285,8 @@ void grid::updateListColors(int index, bool focus)
     int y_start = coordinates[1];
 
     for (int i = 0; i < 9; i++) {
-        int ind1 = 9 * i + x_start;
-        int ind2 = 9 * y_start + i;
+        const int ind1 = 9 * i + x_start;
+        const int ind2 = 9 * y_start + i;
 
         listColors[ind1] = COLOR_SELECTED_RCS;
         listColors[ind2] = COLOR_SELECTED_RCS;
@@ -253,10 +309,10 @@ void grid::check(bool b)
         QList<int> neighbours_y = neighbours[1];
 
         for (int i = 0; i < 3; i++) {
-            int x = neighbours_x[i];
+            const int x = neighbours_x[i];
             for (int j = 0; j < 3; j++) {
-                int y = neighbours_y[j];
-                int ind = 9 * y + x;
+                const int y = neighbours_y[j];
+                const int ind = 9 * y + x;
                 if (ind != index && listCells[ind] == listCells[index]) {
                     if (b) {
                         listColors[ind] = COLOR_FALSE;
@@ -278,7 +334,7 @@ void grid::check(bool b)
         }
 
         for (int k = 0; k < 9; k++) {
-            int ind = 9 * coordinates[1] + k;
+            const int ind = 9 * coordinates[1] + k;
             if (ind != index && listCells[ind] == listCells[index]) {
                 if (b) {
                     listColors[ind] = COLOR_FALSE;
@@ -299,7 +355,7 @@ void grid::check(bool b)
         }
 
         for (int k = 0; k < 9; k++) {
-            int ind = 9 * k + coordinates[0];
+            const int ind = 9 * k + coordinates[0];
             if (ind != index && listCells[ind] == listCells[index]) {
                 if (b) {
                     listColors[ind] = COLOR_FALSE;
@@ -330,63 +386,7 @@ void grid::check(bool b)
 // Provjera ako postoji spremljena igra
 void grid::check_saved_file()
 {
-    show_save = std::ifstream("./mreze/5.txt").good();
-
-    emit cellChanged();
-}
-
-// Spremanje igre
-void grid::save()
-{
-    std::ofstream myfile;
-    myfile.open("./mreze/5.txt");
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            int index = j + 9 * i;
-            if (listCells[index] != QString()) {
-                if (listCellTypes[index] == false) {
-                    myfile << "-" + (listCells[index].toStdString());
-                } else {
-                    myfile << listCells[index].toStdString();
-                }
-                myfile << "|";
-            } else {
-                myfile << ".";
-                myfile << "|";
-            }
-        }
-
-        myfile << "\n";
-    }
-
-    myfile.close();
-
-    myfile.open("./mreze/5rjesenje.txt");
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            int index = j + 9 * i;
-            if (listSolutionCells[index] != QString()) {
-                myfile << listSolutionCells[index].toStdString();
-                myfile << "|";
-            }
-        }
-
-        myfile << "\n";
-    }
-
-    myfile.close();
-}
-
-void grid::changeIsLight(bool isLight)
-{
-    qDebug() << isLight;
-    for (int i = 0; i < listColors.size(); ++i) {
-        if (!isLight && listColors[i] == "white") {
-            listColors[i] = COLOR_DARK;
-        } else if (isLight && listColors[i] == COLOR_DARK) {
-            listColors[i] = "white";
-        }
-    }
+    show_save = std::ifstream("./mreze/saved.txt").good();
 
     emit cellChanged();
 }
