@@ -12,6 +12,7 @@ Column {
         color: "#2ecc71"
         game: 1
         startingColor: "#2ecc71"
+        loadLevel: true
     }
 
     CustomButton {
@@ -20,6 +21,7 @@ Column {
         color: "#1abc9c"
         game: 2
         startingColor: "#1abc9c"
+        loadLevel: true
     }
 
     CustomButton {
@@ -28,6 +30,7 @@ Column {
         color: "#80CBC4"
         game: 3
         startingColor: "#80CBC4"
+        loadLevel: true
     }
 
     CustomButton {
@@ -36,6 +39,7 @@ Column {
         color: "#ff9800"
         game: 4
         startingColor: "#ff9800"
+        loadLevel: true
     }
 
     CustomButton {
@@ -45,5 +49,6 @@ Column {
         game: 5
         startingColor: "#00BCD4"
         visible : grid.show_save_game ? true : false
+        loadLevel: false
     }
 }

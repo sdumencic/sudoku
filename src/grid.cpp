@@ -49,8 +49,111 @@ void grid::initGrid()
     listSolutionCells.fill(QString(), 81);
 }
 
-// Citanje txt filea
+// Ucitavanje sudokua za opciju spremljene igre
 void grid::initGrid_file_txt(int i)
+{
+    m_level = i;
+
+    // Postavljanje cistog pocetnog stanja
+    listCells.clear();
+    listCellTypes.clear();
+    listColors.clear();
+    listSolutionCells.clear();
+    listColors.resize(81, "white");
+
+    // Postavljanje datoteke za citanje iz direktorija mreze
+    string inputFileName = "./mreze/saved.txt";
+    ifstream inputFile(inputFileName);
+
+    if (!inputFile.is_open()) {
+        cerr << "Error while loading file " << inputFileName << "\n";
+        __throw_invalid_argument("File not found.");
+    }
+
+    string line;
+    int lineCount = 0;
+
+    // Citanje svakog reda iz txt
+    while (getline(inputFile, line)) {
+        lineCount++;
+
+        istringstream ss(line);
+        string cell;
+
+        // Odvajanje prema celijama iz txt datoteke na temelju '|'
+        // . - prazno polje
+        // Broj - predefinirano polje
+        // - - u spremljenim datotekama oznacava da nije predefinirani broj
+        while (getline(ss, cell, '|')) {
+            try {
+                if (cell == ".") {
+                    listCells.push_back(QString());
+                    listCellTypes.push_back(false);
+                } else if (cell.substr(0, 1) == "-") {
+                    listCells.push_back(QString::fromStdString(cell.substr(1, 2)));
+                    listCellTypes.push_back(false);
+                } else {
+                    listCells.push_back(QString::fromStdString(cell));
+                    listCellTypes.push_back(true);
+                }
+            } catch (const std::invalid_argument &e) {
+                cout << "NaN found in file " << inputFileName << " line " << lineCount << endl;
+            }
+        }
+    }
+
+    inputFile.close();
+
+    // Ucitavanje mreze za rjesenje
+    string inputSolutionFileName = "./mreze/savedrjesenje.txt";
+    ifstream inputSolutionFile(inputSolutionFileName);
+
+    if (!inputSolutionFile.is_open()) {
+        cerr << "Error while loading file " << inputSolutionFileName << "\n";
+        __throw_invalid_argument("File not found.");
+    }
+
+    lineCount = 0;
+
+    // Citanje svakog reda iz txt
+    while (getline(inputSolutionFile, line)) {
+        lineCount++;
+
+        istringstream ss(line);
+        string cell;
+
+        while (getline(ss, cell, '|')) {
+            try {
+                listSolutionCells.push_back(QString::fromStdString(cell));
+            } catch (const std::invalid_argument &e) {
+                cout << "NaN found in file " << inputSolutionFileName << " line " << lineCount
+                     << endl;
+            }
+        }
+    }
+
+    inputSolutionFile.close();
+
+    int j = 0;
+    for (int i = 0; i < 81; ++i) {
+        if (listCells[i].toStdString() == "") {
+            cout << "x ";
+        } else {
+            cout << listCells[i].toStdString() + " ";
+        }
+
+        j++;
+        if (j == 9) {
+            cout << endl;
+            j = 0;
+        }
+    }
+
+    emit cellChanged();
+}
+
+// Generiranje sudoku grida na temelju levela
+void grid::initGrid_game(int i)
 {
     m_level = i;
 
@@ -68,25 +171,34 @@ void grid::initGrid_file_txt(int i)
 
     listSolutionCells = listCells;
 
-    int numOfBlanks;
+    int maxNumOfBlanks;
 
+    // Maksimalan broj praznih polja po levelu
+    // Maksimalan jer se random index može ponoviti - još više primjera kod generiranja
     switch (m_level) {
     case 1:
-        numOfBlanks = 10;
+        maxNumOfBlanks = 10;
         break;
     case 2:
-        numOfBlanks = 15;
+        maxNumOfBlanks = 15;
         break;
     case 3:
-        numOfBlanks = 20;
+        maxNumOfBlanks = 20;
         break;
+    case 4:
+        maxNumOfBlanks = 30;
+        break;
+    default:
+        maxNumOfBlanks = 20;
     }
 
-    for (int i = 0; i < numOfBlanks; ++i) {
+    // Oznacavanje praznih polja
+    for (int i = 0; i < maxNumOfBlanks; ++i) {
         int randomIndex = std::rand() % listCells.size();
         listCells[randomIndex] = "";
     }
 
+    // Oznacavanje predefiniranih polja
     for (int i = 0; i < listCells.size(); ++i) {
         if (listCells[i] != "") {
             listCellTypes.push_back(true);
@@ -101,6 +213,21 @@ void grid::initGrid_file_txt(int i)
 // Spremanje igre
 void grid::save()
 {
+    int j = 0;
+    for (int i = 0; i < 81; ++i) {
+        if (listCells[i].toStdString() == "") {
+            cout << "x ";
+        } else {
+            cout << listCells[i].toStdString() + " ";
+        }
+
+        j++;
+        if (j == 9) {
+            cout << endl;
+            j = 0;
+        }
+    }
+
     std::ofstream myfile;
     myfile.open("./mreze/saved.txt");
     for (int i = 0; i < 9; i++) {

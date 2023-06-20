@@ -24,6 +24,7 @@ public:
     Q_PROPERTY(QList<QString> colors MEMBER listColors NOTIFY cellChanged)
 
     Q_INVOKABLE void initGrid_file_txt(int inputFileNumber);
+    Q_INVOKABLE void initGrid_game(int inputFileNumber);
     Q_INVOKABLE void save();
     Q_INVOKABLE void updateListCells(int index, int txt);
     Q_INVOKABLE void updateListColors(int index, bool focus);

@@ -12,12 +12,20 @@ Rectangle {
     property int game: 0;
     property string startingColor: "";
 
+    // Ucitati level ili iz saved datotekte
+    property bool loadLevel: true
+
     MouseArea {
         width: 200
         anchors.fill: parent
         onClicked: {
-            grid.generate()
-            grid.initGrid_file_txt(game)
+            window.game = game;
+            if (loadLevel){
+                grid.generate()
+                grid.initGrid_game(window.game);
+            } else {
+                grid.initGrid_file_txt(window.game)
+            }
             menu.visible = false
             guest.visible = false
             title.visible = false

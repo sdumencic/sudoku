@@ -17,18 +17,7 @@ Window {
     property string teal: "#009688";
     property string lightTeal: "#80CBC4";
     Material.accent: Material.Teal
-
-    Button {
-        text: "Click"
-        anchors {
-            bottom: parent.bottom
-        }
-
-        onClicked: {
-            grid.generate()
-            grid.print()
-        }
-    }
+    property int game: 0;
 
     GridClass {
         id: grid
@@ -184,7 +173,9 @@ Window {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        grid.initGrid_file_txt(grid.level)
+                        grid.generate()
+                        grid.initGrid_game(window.game)
+                        grid.changeIsLight(theme.isLight)
                         timer.reset()
                     }
 
