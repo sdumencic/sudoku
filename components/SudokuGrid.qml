@@ -2,13 +2,14 @@ import QtQuick 2.15
 
 GridView {
     id: gridView
-    width: 500
-    height: 500
+    width: window.height * 0.7
+    height: window.height * 0.7
     opacity: 1
-    cellHeight: 55
-    cellWidth: 55
+    cellHeight: window.height * 0.7 / 9
+    cellWidth: window.height * 0.7 / 9
     anchors {
         horizontalCenter: parent.horizontalCenter
+        verticalCenter: parent.verticalCenter
     }
 
     model: ListModel {
@@ -26,15 +27,15 @@ GridView {
     }
 
     delegate: Item {
-        x: 5
-        height: 50
+//        x: 5
+//        height: 50
         Column {
             id: column
             spacing: 0
             Rectangle {
                 id : rect
-                width: 55
-                height: 55
+                width: window.height * 0.7 / 9
+                height: window.height * 0.7 / 9
 
                 // ListColors - boje
                 color: grid.colors[index]
@@ -42,14 +43,13 @@ GridView {
                 border.width: 1
                 
                 TextInput {
-                    id: textEdit                    
-                    x: 5
-                    width: 55
-                    height: 55
+                    id: textEdit
+                    width: window.height * 0.7 / 9
+                    height: window.height * 0.7 / 9
                     font.bold: true
                     font.pixelSize: 20
-                    padding: 13
-                    topPadding: 15
+                    horizontalAlignment: TextInput.AlignHCenter
+                    verticalAlignment: TextInput.AlignVCenter
 
                     // ListCells - vrijednost svih celija
                     text: grid.cells[index]
@@ -64,11 +64,11 @@ GridView {
                     maximumLength: 1
                     validator: RegularExpressionValidator { regularExpression: /[1-9]/ }
 
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        horizontalCenter: parent.horizontalCenter
-                        horizontalCenterOffset: 8
-                    }
+//                    anchors {
+//                        verticalCenter: parent.verticalCenter
+//                        horizontalCenter: parent.horizontalCenter
+//                        horizontalCenterOffset: 8
+//                    }
 
                     // Mijenjanje boje na focus
                     onFocusChanged: {

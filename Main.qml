@@ -11,6 +11,8 @@ Window {
     id: window
     width: 700
     height: 700
+    minimumWidth: 700
+    minimumHeight: 700
     visible : true
     property alias gridView: gridView
     title: "Sudoku"
@@ -96,7 +98,7 @@ Window {
             model: 4;
             ColorRow {
                 x: gridView.x
-                y: gridView.y + index * 3 * 55
+                y: gridView.y + index * 3 * window.height * 0.7 / 9
             }
         }
 
@@ -104,7 +106,7 @@ Window {
         Repeater {
             model: 4;
             ColorColumn {
-                x: gridView.x + index * 3 * 55
+                x: gridView.x + index * 3 * window.height * 0.7 / 9
                 y: gridView.y
             }
         }

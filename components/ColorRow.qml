@@ -1,23 +1,23 @@
 import QtQuick 2.15
 
 Row {
-    width: 485
+    width: window.height * 0.7
     height: 5
 
     Rectangle {
-        width: 165
+        width: window.height * 0.7 / 3
         height: 5
         color: teal
     }
 
     Rectangle {
-        width: 165
+        width: window.height * 0.7 / 3
         height: 5
         color: teal
     }
 
     Rectangle {
-        width: 170
+        width: window.height * 0.7 / 3 + 5
         height: 5
         color: teal
     }
