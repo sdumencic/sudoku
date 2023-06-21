@@ -25,6 +25,9 @@ const QString COLOR_DARK = "#3C3C3C";
 
 const int numbers1to9[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
+bool a;
+bool b;
+
 grid::grid(QObject *parent)
     : QObject(parent)
 {
@@ -431,45 +434,11 @@ void grid::check(bool b)
         }
 
         for (int k = 0; k < 9; k++) {
-            const int ind = 9 * coordinates[1] + k;
-            if (ind != index && listCells[ind] == listCells[index]) {
-                if (b) {
-                    listColors[ind] = COLOR_FALSE;
-                    listColors[index] = COLOR_FALSE;
-                    a = false;
-                } else {
-                    a = false;
-                }
-            }
-            if (listCells[ind].isEmpty()) {
-                if (b) {
-                    listColors[ind] = COLOR_FALSE;
-                    a = false;
-                } else {
-                    a = false;
-                }
-            }
-        }
+            int ind = 9 * coordinates[1] + k;
+            checkLine(ind, index);
 
-        for (int k = 0; k < 9; k++) {
-            const int ind = 9 * k + coordinates[0];
-            if (ind != index && listCells[ind] == listCells[index]) {
-                if (b) {
-                    listColors[ind] = COLOR_FALSE;
-                    listColors[index] = COLOR_FALSE;
-                    a = false;
-                } else {
-                    a = false;
-                }
-            }
-            if (listCells[ind].isEmpty()) {
-                if (b) {
-                    listColors[ind] = COLOR_FALSE;
-                    a = false;
-                } else {
-                    a = false;
-                }
-            }
+            ind = 9 * k + coordinates[0];
+            checkLine(ind, index);
         }
     }
 
@@ -478,6 +447,28 @@ void grid::check(bool b)
     }
 
     emit cellChanged();
+}
+
+void grid::checkLine(int ind, int index)
+{
+    if (ind != index && listCells[ind] == listCells[index]) {
+        if (b) {
+            listColors[ind] = COLOR_FALSE;
+            listColors[index] = COLOR_FALSE;
+            a = false;
+        } else {
+            a = false;
+        }
+    }
+
+    if (listCells[ind].isEmpty()) {
+        if (b) {
+            listColors[ind] = COLOR_FALSE;
+            a = false;
+        } else {
+            a = false;
+        }
+    }
 }
 
 // Provjera ako je u skladu s pravilima sudokua
