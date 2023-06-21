@@ -25,8 +25,7 @@ const QString COLOR_DARK = "#3C3C3C";
 
 const int numbers1to9[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-bool a;
-bool b;
+bool checkIfDone;
 
 grid::grid(QObject *parent)
     : QObject(parent)
@@ -398,9 +397,11 @@ void grid::updateListColors(int index, bool focus)
 }
 
 // Provjera stanja
-void grid::check(bool b)
+void grid::check(bool checkOnClick)
 {
-    bool a = true;
+    bool checkIfDone = true;
+
+    // Index celije
     int index;
     for (index = 0; index < 81; index++) {
         QList<int> coordinates = get_coordinates(index);
@@ -412,61 +413,84 @@ void grid::check(bool b)
             const int x = neighbours_x[i];
             for (int j = 0; j < 3; j++) {
                 const int y = neighbours_y[j];
-                const int ind = 9 * y + x;
-                if (ind != index && listCells[ind] == listCells[index]) {
-                    if (b) {
-                        listColors[ind] = COLOR_FALSE;
+                const int indexToCompare = 9 * y + x;
+                if (indexToCompare != index && listCells[indexToCompare] == listCells[index]) {
+                    if (checkOnClick) {
+                        listColors[indexToCompare] = COLOR_FALSE;
                         listColors[index] = COLOR_FALSE;
-                        a = false;
+                        checkIfDone = false;
                     } else {
-                        a = false;
+                        checkIfDone = false;
                     }
                 }
-                if (listCells[ind].isEmpty()) {
-                    if (b) {
-                        listColors[ind] = COLOR_FALSE;
-                        a = false;
+                if (listCells[indexToCompare].isEmpty()) {
+                    if (checkOnClick) {
+                        listColors[indexToCompare] = COLOR_FALSE;
+                        checkIfDone = false;
                     } else {
-                        a = false;
+                        checkIfDone = false;
                     }
                 }
             }
         }
 
+        // Opcija 1 za DRY
         for (int k = 0; k < 9; k++) {
-            int ind = 9 * coordinates[1] + k;
-            checkLine(ind, index);
+            const int rowInd = 9 * coordinates[1] + k;
+            checkLine(rowInd, index, checkOnClick);
 
-            ind = 9 * k + coordinates[0];
-            checkLine(ind, index);
+            const int colInd = 9 * k + coordinates[0];
+            checkLine(colInd, index, checkOnClick);
         }
+
+        // Opcija 2 za DRY
+        //        for (int k = 0; k < 18; k++) {
+        //            const int ind = k < 9 ? 9 * coordinates[1] + k : 9 * (k - 9) + coordinates[0];
+        //            if (ind != index && listCells[ind] == listCells[index]) {
+        //                if (checkOnClick) {
+        //                    listColors[ind] = COLOR_FALSE;
+        //                    listColors[index] = COLOR_FALSE;
+        //                    a = false;
+        //                } else {
+        //                    a = false;
+        //                }
+        //            }
+        //            if (listCells[ind].isEmpty()) {
+        //                if (checkOnClick) {
+        //                    listColors[ind] = COLOR_FALSE;
+        //                    a = false;
+        //                } else {
+        //                    a = false;
+        //                }
+        //            }
+        //        }
     }
 
-    if (a) {
+    if (checkIfDone) {
         std::fill(listColors.begin(), listColors.end(), COLOR_CORRECT);
     }
 
     emit cellChanged();
 }
 
-void grid::checkLine(int ind, int index)
+void grid::checkLine(int ind, int index, bool checkOnClick)
 {
     if (ind != index && listCells[ind] == listCells[index]) {
-        if (b) {
+        if (checkOnClick) {
             listColors[ind] = COLOR_FALSE;
             listColors[index] = COLOR_FALSE;
-            a = false;
+            checkIfDone = false;
         } else {
-            a = false;
+            checkIfDone = false;
         }
     }
 
     if (listCells[ind].isEmpty()) {
-        if (b) {
+        if (checkOnClick) {
             listColors[ind] = COLOR_FALSE;
-            a = false;
+            checkIfDone = false;
         } else {
-            a = false;
+            checkIfDone = false;
         }
     }
 }

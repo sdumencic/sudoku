@@ -21,6 +21,8 @@ Window {
     Material.accent: Material.Teal
     property int game: 0;
 
+//    required property Player _user;
+
     GridClass {
         id: grid
     }

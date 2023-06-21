@@ -3,9 +3,11 @@
 #define PLAYER_H
 
 #include <QObject>
+#include <QtQml/qqmlregistration.h>
 
 class Player : public QObject
 {
+    //    QML_ELEMENT
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
 public:

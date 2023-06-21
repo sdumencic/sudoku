@@ -29,6 +29,8 @@ int main(int argc, char *argv[])
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
 
+    //    engine.setInitialProperties({{"_user", QVariant::fromValue(&p)}});
+
     engine.load(url);
 
     app.setWindowIcon(QIcon("./images/sudoku.png"));

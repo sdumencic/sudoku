@@ -28,11 +28,11 @@ public:
     Q_INVOKABLE void save();
     Q_INVOKABLE void updateListCells(int index, int txt);
     Q_INVOKABLE void updateListColors(int index, bool focus);
-    Q_INVOKABLE void check(bool b);
+    Q_INVOKABLE void check(bool checkOnClick);
     Q_INVOKABLE void help();
     Q_INVOKABLE void check_saved_file();
     Q_INVOKABLE void changeIsLight(bool isLight);
-    void checkLine(int ind, int index);
+    void checkLine(int ind, int index, bool checkOnClick);
 
     Q_INVOKABLE bool generate()
     {
