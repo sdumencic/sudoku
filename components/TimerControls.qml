@@ -24,9 +24,11 @@ Item {
             if(isStart) {
                 timer.stop();
                 gridView.visible = false;
+                hintButton.enabled = false
             } else {
                 timer.start();
                 gridView.visible = true;
+                hintButton.enabled = true
             }
 
             isStart = !isStart;

@@ -14,8 +14,8 @@ qt_standard_project_setup()
 qt_add_executable(appsudoku
     main.cpp
     src/grid.cpp
-#    src/player.h
-    src/player.cpp
+    player.h
+    player.cpp
     src/theme.cpp
     src/gametimer.cpp
     qml.qrc
@@ -37,7 +37,8 @@ qt_add_qml_module(appsudoku
         components/UserDialog.qml
         components/MainMenu.qml
         components/TimerControls.qml
-        src/player.h src/player.cpp
+    SOURCES
+        player.cpp player.h
 )
 
 # Dodavanje direktorija s mrezama

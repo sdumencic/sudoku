@@ -9,6 +9,7 @@ Button {
     z: 20
     height: 70
     width: 70
+    enabled: true
 
     ToolTip.visible: hovered
     ToolTip.text: "Riješi 1 nasumičnu ćeliju"

@@ -109,7 +109,7 @@ void grid::initGrid_file_txt(int i)
     inputFile.close();
 
     // Ucitavanje mreze za rjesenje
-    string inputSolutionFileName = "./mreze/savedrjesenje.txt";
+    string inputSolutionFileName = "./mreze/savedsolution.txt";
     ifstream inputSolutionFile(inputSolutionFileName);
 
     if (!inputSolutionFile.is_open()) {
@@ -137,21 +137,6 @@ void grid::initGrid_file_txt(int i)
     }
 
     inputSolutionFile.close();
-
-    int j = 0;
-    for (int i = 0; i < 81; ++i) {
-        if (listCells[i].toStdString() == "") {
-            cout << "x ";
-        } else {
-            cout << listCells[i].toStdString() + " ";
-        }
-
-        j++;
-        if (j == 9) {
-            cout << endl;
-            j = 0;
-        }
-    }
 
     emit cellChanged();
 }
@@ -217,21 +202,6 @@ void grid::initGrid_game(int i)
 // Spremanje igre
 void grid::save()
 {
-    int j = 0;
-    for (int i = 0; i < 81; ++i) {
-        if (listCells[i].toStdString() == "") {
-            cout << "x ";
-        } else {
-            cout << listCells[i].toStdString() + " ";
-        }
-
-        j++;
-        if (j == 9) {
-            cout << endl;
-            j = 0;
-        }
-    }
-
     std::ofstream myfile;
     myfile.open("./mreze/saved.txt");
     for (int i = 0; i < 9; i++) {
@@ -255,7 +225,7 @@ void grid::save()
 
     myfile.close();
 
-    myfile.open("./mreze/savedrjesenje.txt");
+    myfile.open("./mreze/savedsolution.txt");
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             int index = j + 9 * i;
@@ -445,22 +415,23 @@ void grid::check(bool checkOnClick)
 
         // Opcija 2 za DRY
         //        for (int k = 0; k < 18; k++) {
-        //            const int ind = k < 9 ? 9 * coordinates[1] + k : 9 * (k - 9) + coordinates[0];
-        //            if (ind != index && listCells[ind] == listCells[index]) {
+        //            const int indexToCompare = k < 9 ? 9 * coordinates[1] + k
+        //                                             : 9 * (k - 9) + coordinates[0];
+        //            if (indexToCompare != index && listCells[indexToCompare] == listCells[index]) {
         //                if (checkOnClick) {
-        //                    listColors[ind] = COLOR_FALSE;
+        //                    listColors[indexToCompare] = COLOR_FALSE;
         //                    listColors[index] = COLOR_FALSE;
-        //                    a = false;
+        //                    checkIfDone = false;
         //                } else {
-        //                    a = false;
+        //                    checkIfDone = false;
         //                }
         //            }
-        //            if (listCells[ind].isEmpty()) {
+        //            if (listCells[indexToCompare].isEmpty()) {
         //                if (checkOnClick) {
-        //                    listColors[ind] = COLOR_FALSE;
-        //                    a = false;
+        //                    listColors[indexToCompare] = COLOR_FALSE;
+        //                    checkIfDone = false;
         //                } else {
-        //                    a = false;
+        //                    checkIfDone = false;
         //                }
         //            }
         //        }
@@ -473,11 +444,11 @@ void grid::check(bool checkOnClick)
     emit cellChanged();
 }
 
-void grid::checkLine(int ind, int index, bool checkOnClick)
+void grid::checkLine(int indexToCompare, int index, bool checkOnClick)
 {
-    if (ind != index && listCells[ind] == listCells[index]) {
+    if (indexToCompare != index && listCells[indexToCompare] == listCells[index]) {
         if (checkOnClick) {
-            listColors[ind] = COLOR_FALSE;
+            listColors[indexToCompare] = COLOR_FALSE;
             listColors[index] = COLOR_FALSE;
             checkIfDone = false;
         } else {
@@ -485,9 +456,9 @@ void grid::checkLine(int ind, int index, bool checkOnClick)
         }
     }
 
-    if (listCells[ind].isEmpty()) {
+    if (listCells[indexToCompare].isEmpty()) {
         if (checkOnClick) {
-            listColors[ind] = COLOR_FALSE;
+            listColors[indexToCompare] = COLOR_FALSE;
             checkIfDone = false;
         } else {
             checkIfDone = false;
@@ -520,7 +491,6 @@ bool grid::uniqueCheck(int coord_x, int coord_y, int number)
 // Generiranje 3x3 kvadrata
 bool grid::generateSquare3x3(int sq_coord_x, int sq_coord_y)
 {
-    // Unutarnje koordinate kvadrata
     for (int inner_x = 0; inner_x < 3; inner_x++)
         for (int inner_y = 0; inner_y < 3;) {
             int coord_x = sq_coord_x + inner_x;
@@ -544,7 +514,6 @@ bool grid::generator()
 {
     for (int coord_x = 0; coord_x < 9; coord_x++)
         for (int coord_y = 0; coord_y < 9; coord_y++)
-            // Inicijalizacija s 0
             this->array[coord_x][coord_y] = 0;
 
     for (int outer_x = 0; outer_x < 3; outer_x++)

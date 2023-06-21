@@ -40,7 +40,7 @@ Popup {
                     id: ok
                     text: "U redu"
                     font.pixelSize: 20
-                    width: popupButtonRow.width / 2 - popupButtonRow.spacing
+                    width: usernamePopup.width / 4
                     ToolTip.visible: hovered
                     ToolTip.text: "U redu"
                     onClicked: {
@@ -65,7 +65,7 @@ Popup {
                     id: cancel
                     text: "Odustani"
                     font.pixelSize: 20
-                    width: 100
+                    width: usernamePopup.width / 4
                     ToolTip.visible: hovered
                     ToolTip.text: "Odustani"
                     onClicked: {

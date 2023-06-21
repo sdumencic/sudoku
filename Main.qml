@@ -278,8 +278,11 @@ Window {
     // Pozadina
     Image {
         id : background
+        width: window.width
+        height: parent.height
         source: "qrc:///images/background.png"
         z: -1
+        fillMode: Image.PreserveAspectCrop
     }
 
     // Naslov
