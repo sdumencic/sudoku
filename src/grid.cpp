@@ -23,6 +23,8 @@ const QString COLOR_CORRECT = "#C5E1A5";
 // Boja za tamnu temu
 const QString COLOR_DARK = "#3C3C3C";
 
+const int numbers1to9[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
 grid::grid(QObject *parent)
     : QObject(parent)
 {
@@ -267,6 +269,14 @@ void grid::save()
     myfile.close();
 }
 
+// Provjera ako postoji spremljena igra
+void grid::check_saved_file()
+{
+    show_save = std::ifstream("./mreze/saved.txt").good();
+
+    emit cellChanged();
+}
+
 void grid::changeIsLight(bool isLight)
 {
     for (int i = 0; i < listColors.size(); ++i) {
@@ -470,49 +480,39 @@ void grid::check(bool b)
     emit cellChanged();
 }
 
-// Provjera ako postoji spremljena igra
-void grid::check_saved_file()
-{
-    show_save = std::ifstream("./mreze/saved.txt").good();
-
-    emit cellChanged();
-}
-
-const int numbers1to9[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-
+// Provjera ako je u skladu s pravilima sudokua
 bool grid::uniqueCheck(int coord_x, int coord_y, int number)
 {
-    // checks, if there are any contradictions with sudoku logic
-    for (int inner_y = 0; inner_y < 9; inner_y++) // string checker
+    for (int inner_y = 0; inner_y < 9; inner_y++)
         if (this->array[coord_x][inner_y] == number)
             return false;
-    // if number already exists in string returns false;
 
-    for (int inner_x = 0; inner_x < 9; inner_x++) // string checker
+    for (int inner_x = 0; inner_x < 9; inner_x++)
         if (this->array[inner_x][coord_y] == number)
             return false;
-    // if number already exists in column returns false;
 
-    {                                                     // square checker
-        int sq_coord_x = coord_x - coord_x % 3;           // parse 0 or 3 or 6 from input coord X
-        int sq_coord_y = coord_y - coord_y % 3;           // parse 0 or 3 or 6 from input coord Y
-        for (int inner_x = 0; inner_x < 3; inner_x++)     // three times right from sq_coord_x
-            for (int inner_y = 0; inner_y < 3; inner_y++) // three times down from sq_coord_y
-                if (number != 0)                          // why we need to check 0?
-                    if (this->array[sq_coord_x + inner_x][sq_coord_y + inner_y] == number)
-                        return false;
-    }
+    int sq_coord_x = coord_x - coord_x % 3;
+    int sq_coord_y = coord_y - coord_y % 3;
+    for (int inner_x = 0; inner_x < 3; inner_x++)
+        for (int inner_y = 0; inner_y < 3; inner_y++)
+            if (number != 0)
+                if (this->array[sq_coord_x + inner_x][sq_coord_y + inner_y] == number)
+                    return false;
+
     return true;
 }
+
+// Generiranje 3x3 kvadrata
 bool grid::generateSquare3x3(int sq_coord_x, int sq_coord_y)
 {
-    for (int inner_x = 0; inner_x < 3; inner_x++) // inner square coordinates
+    // Unutarnje koordinate kvadrata
+    for (int inner_x = 0; inner_x < 3; inner_x++)
         for (int inner_y = 0; inner_y < 3;) {
             int coord_x = sq_coord_x + inner_x;
             int coord_y = sq_coord_y + inner_y;
 
             if (this->generationFailureCheck(coord_x, coord_y))
-                return false; // generation failed
+                return false;
 
             int temp_rand = rand() % 9 + 1;
             if (this->uniqueCheck(coord_x, coord_y, temp_rand)) {
@@ -520,33 +520,34 @@ bool grid::generateSquare3x3(int sq_coord_x, int sq_coord_y)
                 inner_y++;
             }
         }
-    return true; // generation successful
+
+    return true;
 }
+
+// Generira sudoku grid
 bool grid::generator()
 {
-    // this function generates field by squares
     for (int coord_x = 0; coord_x < 9; coord_x++)
         for (int coord_y = 0; coord_y < 9; coord_y++)
-            this->array[coord_x][coord_y] = 0; // inits field with zeros
+            // Inicijalizacija s 0
+            this->array[coord_x][coord_y] = 0;
 
-    // outer coords for 3*3 squares, inner coords for numbers inside, 3*3 too
     for (int outer_x = 0; outer_x < 3; outer_x++)
         for (int outer_y = 0; outer_y < 3; outer_y++)
             if (!this->generateSquare3x3(outer_x * 3, outer_y * 3))
-                // if statement starts generate3x3 function, and if it returns false generator stops
                 return false;
     return true;
 }
 
+// Provjerava ako postoji neki broj koji se moze staviti na odredene koordinate
 bool grid::generationFailureCheck(int coord_x, int coord_y)
 {
-    // returns true, if there is no numbers we can place in that coords
     bool failure = false;
     for (int i = 0; i < 9; i++) {
         failure = failure | this->uniqueCheck(coord_x, coord_y, numbers1to9[i]);
-        // if there is no number in 1..9 that we can place, failure variable doesn't change and function returns !failure -> true
         if (failure)
-            break; // if we found at least 1 number in 1..9, stop loop and return false
+            break;
     }
+
     return !failure;
 }
