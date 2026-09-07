@@ -1,7 +1,7 @@
 # Sudoku
 C++ QML application for University courses:
 - Cross platform programming
-- Technical application programming
+- Programming of engineering applications
 
 ## Content
 - [Sudoku](#sudoku)
